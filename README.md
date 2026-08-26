@@ -6,10 +6,12 @@ Expense tracking as physical receipts. Same app, three homes. One oak box, many 
 
 August, dummy data, currency ₹. Home / New / Boxes on every screen.
 
+The only container image is Rahul’s empty oak tray (`assets/3d/wood-tray.webp`). Category piles are the same tray with coded thermal slips sitting in the well.
+
 - **Chooser** — [https://rayzorzrb.github.io/ava-receipts/](https://rayzorzrb.github.io/ava-receipts/)
-- **studio** — [studio.html](https://rayzorzrb.github.io/ava-receipts/studio.html) — the month is his tray, stuffed with paper. Four smaller oak boxes underneath to sort into.
-- **cells** — [cells.html](https://rayzorzrb.github.io/ava-receipts/cells.html) — four of his oak boxes fill the screen. Same tray, different piles. Open one for that category’s slips.
-- **table** — [table.html](https://rayzorzrb.github.io/ava-receipts/table.html) — compact tray up top, his boxes filter a wallet of thermal slips.
+- **studio** — [studio.html](https://rayzorzrb.github.io/ava-receipts/studio.html) — August inbox is his empty tray with every coded slip in the well. Four smaller oak trays underneath hold the sorted piles.
+- **cells** — [cells.html](https://rayzorzrb.github.io/ava-receipts/cells.html) — four of his oak boxes fill the screen. Same tray, different coded piles. Open one for that category’s slips in the well.
+- **table** — [table.html](https://rayzorzrb.github.io/ava-receipts/table.html) — compact oak tray up top, his boxes filter a wallet of thermal slips.
 
 Tap a slip for the full sheet. New prints a receipt into a box. Saved to `localStorage` (`ava-product-v1`).
 

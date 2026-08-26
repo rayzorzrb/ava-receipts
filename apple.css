@@ -165,13 +165,16 @@ input {
 .hero-tray img { width: 78%; height: auto; margin: 0 auto; filter: drop-shadow(0 16px 24px rgba(0,0,0,0.12)); }
 
 .cat-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0 4px; padding: 0 10px 8px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 4px; padding: 0 10px 28px;
+}
+.cat-tile, .cells-tile, .boxes-tile, .snap-card, .home-tile {
+  cursor: pointer;
 }
 .cat-tile {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: 0 4px 10px; min-height: 44px; background: transparent;
 }
-.cat-tile img { width: 100%; filter: drop-shadow(0 10px 16px rgba(0,0,0,0.10)); }
+.cat-tile .oak { width: 100%; }
 .cat-tile .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .cat-tile .meta { margin-top: 2px; font-size: 13px; color: var(--label); font-variant-numeric: tabular-nums; }
 
@@ -184,7 +187,7 @@ input {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; min-height: 44px; padding: 0 4px 8px; background: transparent;
 }
-.cells-tile img, .home-tile img { width: 100%; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.11)); }
+.cells-tile .oak, .home-tile .oak { width: 100%; }
 .cells-tile .cap, .home-tile .cap {
   margin-top: 2px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px;
 }
@@ -197,7 +200,7 @@ input {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: 0 4px 12px; min-height: 44px; background: transparent;
 }
-.boxes-tile img { width: 100%; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.11)); }
+.boxes-tile .oak { width: 100%; }
 .boxes-tile .cap { margin-top: 2px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
 .boxes-tile .meta { margin-top: 2px; font-size: 13px; color: var(--label); font-variant-numeric: tabular-nums; }
 
@@ -224,7 +227,7 @@ input {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   min-height: 44px; background: transparent;
 }
-.snap-card img { width: 100%; filter: drop-shadow(0 10px 14px rgba(0,0,0,0.11)); }
+.snap-card .oak { width: 100%; }
 .snap-card .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .snap-card .meta { font-size: 12px; color: var(--label); font-variant-numeric: tabular-nums; }
 
@@ -356,10 +359,10 @@ input {
   display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: 0 4px 8px; min-height: 44px; border-radius: 16px; background: transparent; position: relative;
 }
-.pick-tile img, .picker-tile img { width: 100%; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.10)); }
+.pick-tile .oak, .picker-tile .oak { width: 100%; }
 .pick-tile .cap, .picker-tile .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .pick-tile.on .cap { color: var(--blue); }
-.pick-tile.on img { filter: drop-shadow(0 8px 12px rgba(0,122,255,0.28)); }
+.pick-tile.on .oak > img { filter: drop-shadow(0 8px 12px rgba(0,122,255,0.28)); }
 .pick-check {
   position: absolute; top: 10px; right: 14px; width: 22px; height: 22px; border-radius: 50%;
   background: var(--blue); color: #fff; display: none; place-items: center;
@@ -390,19 +393,20 @@ input {
   padding: 8px 16px 0; background: var(--bg); min-height: 132px;
 }
 .home-pick .art img { width: min(240px, 70%); filter: drop-shadow(0 10px 16px rgba(0,0,0,0.10)); }
-.home-pick .art .tray-stage {
-  width: min(260px, 78%);
+.home-pick .art .oak, .home-pick .art .tray-stage {
+  width: min(240px, 78%);
   margin: 0 auto;
 }
-.home-pick .art .tray-stage > img {
+.home-pick .art .oak > img, .home-pick .art .tray-stage > img {
   width: 100%;
   filter: drop-shadow(0 10px 16px rgba(0,0,0,0.10));
 }
-.home-pick .art .tray-stage.compact { width: min(200px, 64%); }
+.home-pick .art .oak.size-compact, .home-pick .art .tray-stage.compact { width: min(180px, 58%); }
 .home-pick .tray-well .slip { pointer-events: none; }
 .home-pick .art.quad {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0 4px; padding: 4px 20px 0;
 }
+.home-pick .art.quad .oak { width: 100%; }
 .home-pick .art.quad img { width: 100%; }
 .home-pick .art.split { display: flex; align-items: flex-end; justify-content: center; padding: 8px 12px 0; }
 .home-pick .art.split img:first-child { width: 58%; }
@@ -559,28 +563,25 @@ input {
 }
 .slip-full .barcode.tall { height: 42px; margin: 12px 8px 4px; }
 
-/* oak tray family — stuffed month tray, or empty well for live paper */
-.tray-stage {
+/* oak — HIS empty tray + coded slips sitting on the wooden floor */
+.oak, .tray-stage {
   position: relative;
   display: block;
   width: 86%;
   margin: 2px auto 8px;
 }
-.tray-stage > img {
+.oak > img, .tray-stage > img {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 16px 24px rgba(0,0,0,0.12));
+  aspect-ratio: 746 / 800;
   object-fit: contain;
+  filter: drop-shadow(0 16px 24px rgba(0,0,0,0.12));
 }
-.tray-stage.stuffed { width: 90%; margin: 4px auto 10px; }
-.tray-stage.stuffed > img { aspect-ratio: 800 / 546; }
-.tray-stage.stuffed.compact { width: 58%; margin: 4px auto 12px; }
 
-/* Inner floor of the cropped 800×679 tray (measured):
-   back of floor ~26% down, front rim ~79%;
-   inner walls ~18% left / 12% right at the front, narrower at the back.
-   Trapezoid clip tucks paper under the rims. */
+/* Inner floor of wood-tray.webp (746×800):
+   back ~26% down, front rim ~79% from top (bottom: 21%);
+   walls ~18% left / 12% right. Trapezoid clips paper under the rim. */
 .tray-well {
   position: absolute;
   left: 18%;
@@ -591,6 +592,8 @@ input {
   clip-path: polygon(11% 0%, 90% 0%, 100% 100%, 0% 100%);
   pointer-events: none;
   z-index: 2;
+  transform: perspective(720px) rotateX(7deg);
+  transform-origin: 50% 100%;
 }
 .tray-well .slip {
   position: absolute;
@@ -612,32 +615,79 @@ input {
   background: transparent;
   padding: 0;
 }
-.tray-stage.compact {
-  width: 48%;
-  margin: 4px auto 10px;
-}
-.tray-stage.compact .tray-well .slip {
-  width: 52px;
+
+.oak.size-hero { width: 90%; margin: 4px auto 10px; }
+.oak.size-hero .tray-well .slip {
+  width: 56px;
   padding: 10px 5px 5px;
   font-size: 6.5px;
 }
-.tray-stage.compact .tray-well .slip .m { font-size: 7px; }
-.tray-stage.compact .tray-well .slip .d { font-size: 6px; margin: 2px 0 3px; }
-.tray-stage.compact .tray-well .slip .t { font-size: 6.5px; }
-.tray-stage.compact .tray-well .slip .barcode { height: 10px; margin-top: 4px; }
-.tray-stage.full {
-  width: 92%;
-  margin: 4px auto 16px;
-}
-.tray-stage.full .tray-well .slip {
+.oak.size-hero .tray-well .slip .m { font-size: 7px; }
+.oak.size-hero .tray-well .slip .d { font-size: 6px; margin: 2px 0 3px; }
+.oak.size-hero .tray-well .slip .t { font-size: 6.5px; }
+.oak.size-hero .tray-well .slip .barcode { height: 10px; margin-top: 4px; }
+.oak.size-full { width: 92%; margin: 4px auto 12px; }
+.oak.size-full .tray-well .slip {
   width: 64px;
   padding: 11px 5px 5px;
   font-size: 7px;
 }
-.tray-stage.full .tray-well .slip .m { font-size: 7.5px; }
-.tray-stage.full .tray-well .slip .d { font-size: 6.5px; margin: 2px 0 3px; }
-.tray-stage.full .tray-well .slip .t { font-size: 7px; }
-.tray-stage.full .tray-well .slip .barcode { height: 11px; margin-top: 4px; }
+.oak.size-full .tray-well .slip .m { font-size: 7.5px; }
+.oak.size-full .tray-well .slip .d { font-size: 6.5px; margin: 2px 0 3px; }
+.oak.size-full .tray-well .slip .t { font-size: 7px; }
+.oak.size-full .tray-well .slip .barcode { height: 11px; margin-top: 4px; }
+
+.oak.size-cell { width: 100%; margin: 0 auto 2px; }
+.oak.size-cell .tray-well .slip {
+  width: 46px;
+  padding: 9px 4px 4px;
+  font-size: 5.5px;
+}
+.oak.size-cell .tray-well .slip .m { font-size: 6px; }
+.oak.size-cell .tray-well .slip .d { font-size: 5px; margin: 2px 0 3px; }
+.oak.size-cell .tray-well .slip .t { font-size: 5.5px; }
+.oak.size-cell .tray-well .slip .barcode { height: 9px; margin-top: 3px; }
+
+.oak.size-mini { width: 100%; margin: 0 auto 2px; }
+.oak.size-mini .tray-well .slip {
+  width: 40px;
+  padding: 8px 3px 3px;
+  font-size: 5px;
+}
+.oak.size-mini .tray-well .slip .m { font-size: 5.5px; }
+.oak.size-mini .tray-well .slip .d { font-size: 4.5px; margin: 1px 0 2px; }
+.oak.size-mini .tray-well .slip .t { font-size: 5px; }
+.oak.size-mini .tray-well .slip .barcode { height: 8px; margin-top: 3px; }
+
+.oak.size-compact { width: 48%; margin: 4px auto 10px; }
+.oak.size-compact .tray-well .slip {
+  width: 52px;
+  padding: 10px 5px 5px;
+  font-size: 6.5px;
+}
+.oak.size-compact .tray-well .slip .m { font-size: 7px; }
+.oak.size-compact .tray-well .slip .d { font-size: 6px; margin: 2px 0 3px; }
+.oak.size-compact .tray-well .slip .t { font-size: 6.5px; }
+.oak.size-compact .tray-well .slip .barcode { height: 10px; margin-top: 4px; }
+
+.oak.size-pick { width: 100%; margin: 0 auto 2px; }
+.oak.size-pick .tray-well .slip {
+  width: 36px;
+  padding: 7px 3px 3px;
+  font-size: 4.5px;
+}
+.oak.size-pick .tray-well .slip .m { font-size: 5px; }
+.oak.size-pick .tray-well .slip .d { font-size: 4px; margin: 1px 0 2px; }
+.oak.size-pick .tray-well .slip .t { font-size: 4.5px; }
+.oak.size-pick .tray-well .slip .barcode { height: 7px; margin-top: 2px; }
+
+.oak-hint {
+  text-align: center;
+  font-size: 13px;
+  color: var(--label);
+  letter-spacing: -0.08px;
+  padding: 0 16px 20px;
+}
 
 .paper-drawer {
   position: relative;
@@ -684,7 +734,7 @@ input {
 }
 
 .snap-card.on .cap { color: var(--blue); }
-.snap-card.on img { filter: drop-shadow(0 8px 12px rgba(0,122,255,0.28)); }
+.snap-card.on .oak > img { filter: drop-shadow(0 8px 12px rgba(0,122,255,0.28)); }
 
 .detail-paper {
   display: flex;
@@ -700,7 +750,7 @@ input {
   min-height: 44px;
   background: transparent;
 }
-.detail-box img { width: 100%; filter: drop-shadow(0 10px 14px rgba(0,0,0,0.11)); }
+.detail-box .oak { width: 100%; }
 .detail-box .cap { margin-top: 2px; font-size: 13px; font-weight: 600; }
 
 .home-pick .art.split { position: relative; }
@@ -726,11 +776,7 @@ input {
   );
 }
 
-.cat-hero img { aspect-ratio: 800 / 540; object-fit: contain; }
-.cat-tile img, .cells-tile img, .boxes-tile img, .pick-tile img, .snap-card img {
-  aspect-ratio: 800 / 540;
-  object-fit: contain;
-}
+.cat-hero .oak { width: min(300px, 78%); margin: 0 auto; }
 
 .slip.spawn {
   animation: printSlip 0.7s cubic-bezier(0.2, 0.8, 0.22, 1) both;

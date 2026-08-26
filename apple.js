@@ -11,14 +11,13 @@
   });
 
   const TRAY = { src: "assets/3d/wood-tray.webp", w: 746, h: 800 };
-  const TRAY_FULL = { src: "assets/3d/tray-full.webp", w: 800, h: 546 };
   const CATS = [
-    { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.webp", w: 800, h: 553 },
-    { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.webp", w: 800, h: 562 },
-    { id: "rides", label: "Rides", img: "assets/3d/box-rides.webp", w: 800, h: 455 },
-    { id: "home", label: "Home", img: "assets/3d/box-home.webp", w: 800, h: 542 },
+    { id: "groceries", label: "Groceries" },
+    { id: "coffee", label: "Coffee" },
+    { id: "rides", label: "Rides" },
+    { id: "home", label: "Home" },
   ];
-  const CAT_OTHER = { id: "other", label: "Other", img: null };
+  const CAT_OTHER = { id: "other", label: "Other" };
 
   const MERCHANTS = [
     "Ottimo Pizza",
@@ -119,6 +118,19 @@
     { top: "70%", left: "52%", rot: 8 },
   ];
 
+  const CELL_LAYOUT = [
+    { top: "10%", left: "10%", rot: -10 },
+    { top: "14%", left: "48%", rot: 7 },
+    { top: "48%", left: "18%", rot: 5 },
+    { top: "52%", left: "52%", rot: -8 },
+  ];
+
+  const MINI_LAYOUT = [
+    { top: "12%", left: "14%", rot: -9 },
+    { top: "18%", left: "50%", rot: 6 },
+    { top: "52%", left: "28%", rot: -5 },
+  ];
+
   const BACK_CHEV = `<svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const ICON_HOME = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hidden="true"><path d="M4.2 11.6 L12.5 4.4 L20.8 11.6 V20.2 a1.8 1.8 0 0 1-1.8 1.8 h-4.1 v-6.2 h-4.8 v6.2 H6 a1.8 1.8 0 0 1-1.8-1.8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
   const ICON_BOXES = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hidden="true"><rect x="3.4" y="3.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.4" y="3.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="3.4" y="13.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.4" y="13.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/></svg>`;
@@ -178,47 +190,37 @@
       : ` loading="lazy" decoding="async"`;
     return `<img src="${src}" alt="${esc(alt || "")}"${wh}${load}>`;
   }
-  function catImg(c, alt, eager) {
-    if (!c || !c.img) return "";
-    return imgHTML(c.img, c.w, c.h, alt || c.label, eager);
-  }
   function trayImg(alt, eager) {
-    return imgHTML(TRAY.src, TRAY.w, TRAY.h, alt || "August tray", eager);
-  }
-  function trayFullImg(alt, eager) {
-    return imgHTML(TRAY_FULL.src, TRAY_FULL.w, TRAY_FULL.h, alt || "August tray", eager);
+    return imgHTML(TRAY.src, TRAY.w, TRAY.h, alt || "Oak tray", eager);
   }
 
-  function trayFullHTML(opts) {
+  /* Reusable oak box: empty wood tray + coded slips in the well. */
+  function oakHTML(list, opts) {
     opts = opts || {};
-    const cls = ["tray-stage", "stuffed"];
-    if (opts.compact) cls.push("compact");
-    const hit = opts.hit === false
-      ? ""
-      : opts.filter
-        ? `<button class="tray-hit press" type="button" data-filter="${esc(opts.filter)}" aria-label="${esc(opts.label || "All receipts")}"></button>`
-        : `<button class="tray-hit press" type="button" data-act="${esc(opts.act || "all")}" aria-label="${esc(opts.label || "All August receipts")}"></button>`;
+    const size = opts.size || "hero";
+    const layout = opts.layout
+      || (size === "cell" || size === "pick" ? CELL_LAYOUT
+        : size === "mini" || size === "compact" ? MINI_LAYOUT
+        : size === "full" ? DRAWER_LAYOUT
+        : TRAY_LAYOUT);
+    const cls = ["oak", "size-" + size];
+    if (opts.cls) cls.push(opts.cls);
+    let hit = "";
+    if (opts.hit !== false) {
+      if (opts.cat) {
+        hit = `<button class="tray-hit press" type="button" data-cat="${esc(opts.cat)}" aria-label="${esc(opts.label || "Open box")}"></button>`;
+      } else if (opts.filter) {
+        hit = `<button class="tray-hit press" type="button" data-filter="${esc(opts.filter)}" aria-label="${esc(opts.label || "All receipts")}"></button>`;
+      } else if (opts.pick) {
+        hit = `<button class="tray-hit press" type="button" data-pick="${esc(opts.pick)}" aria-label="${esc(opts.label || "Choose box")}"></button>`;
+      } else {
+        hit = `<button class="tray-hit press" type="button" data-act="${esc(opts.act || "all")}" aria-label="${esc(opts.label || "All August receipts")}"></button>`;
+      }
+    }
+    const slips = list && list.length ? scatterHTML(list, layout) : "";
     return `<div class="${cls.join(" ")}">
-      ${trayFullImg(opts.alt || "August tray", opts.eager !== false)}
-      ${hit}
-    </div>`;
-  }
-
-  function trayStageHTML(list, layout, opts) {
-    opts = opts || {};
-    const cls = ["tray-stage"];
-    if (opts.compact) cls.push("compact");
-    if (opts.full) cls.push("full");
-    const hit = opts.hit === false
-      ? ""
-      : opts.filter
-        ? `<button class="tray-hit press" type="button" data-filter="${esc(opts.filter)}" aria-label="${esc(opts.label || "All receipts")}"></button>`
-        : `<button class="tray-hit press" type="button" data-act="${esc(opts.act || "all")}" aria-label="${esc(opts.label || "All August receipts")}"></button>`;
-    return `<div class="${cls.join(" ")}">
-      ${trayImg(opts.alt || "August tray", opts.eager !== false)}
-      <div class="tray-well">
-        ${scatterHTML(list, layout || TRAY_LAYOUT)}
-      </div>
+      ${trayImg(opts.alt || "Oak tray", opts.eager !== false)}
+      <div class="tray-well">${slips}</div>
       ${hit}
     </div>`;
   }
@@ -286,7 +288,7 @@
   function scatterHTML(list, layout, extraClass) {
     const loc = layout || DRAWER_LAYOUT;
     return sorted(list).map((r, i) => {
-      const pos = Object.assign({ z: 1 + i }, loc[i] || loc[i % loc.length]);
+      const pos = Object.assign({ z: 3 + i }, loc[i] || loc[i % loc.length]);
       return slipMini(r, pos, extraClass);
     }).join("");
   }
@@ -379,24 +381,20 @@
     const list = allReceipts();
     const total = sum(list);
     const stats = catStats(list);
-    const recent = sorted(list).slice(0, 4);
     return `${navHTML({ title: "ava" })}
       <div class="large-title">
         <h1>August</h1>
         <p class="sub"><span class="total">${money(total)}</span> · ${countWord(list.length)}</p>
       </div>
-      ${trayFullHTML({ eager: true, label: "All August receipts" })}
+      ${oakHTML(list, { size: "hero", layout: DRAWER_LAYOUT, eager: true, label: "All August receipts", alt: "August inbox" })}
+      <div class="section-head">Sorted</div>
       <div class="cat-grid">
         ${stats.map((c, i) => `
-          <button class="cat-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            ${catImg(c, c.label, i < 2)}
+          <div class="cat-tile" data-cat="${c.id}">
+            ${oakHTML(c.items, { size: "mini", cat: c.id, label: c.label + ", " + money(c.total), alt: c.label, eager: i < 2 })}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
-          </button>`).join("")}
-      </div>
-      <div class="section-head">Recent</div>
-      <div class="recent-slips">
-        ${recent.map((r, i) => slipMini(r, null, "recent n" + (i + 1))).join("")}
+          </div>`).join("")}
       </div>`;
   }
 
@@ -411,11 +409,11 @@
       </div>
       <div class="cells-grid">
         ${stats.map((c) => `
-          <button class="cells-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            ${catImg(c, c.label, true)}
+          <div class="cells-tile" data-cat="${c.id}">
+            ${oakHTML(c.items, { size: "cell", cat: c.id, label: c.label + ", " + money(c.total), alt: c.label, eager: true })}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
-          </button>`).join("")}
+          </div>`).join("")}
       </div>
     </div>`;
   }
@@ -425,19 +423,20 @@
     const stats = catStats(list);
     const shown = state.filterCat ? inCat(list, state.filterCat) : list;
     const filterLabel = state.filterCat ? (catById(state.filterCat) || {}).label : null;
+    const trayList = state.filterCat ? shown : sorted(list).slice(0, 3);
     return `${navHTML({ title: "ava" })}
       <div class="large-title">
         <h1>August</h1>
         <p class="sub"><span class="total">${money(sum(shown))}</span> · ${countWord(shown.length)}${filterLabel ? " · " + esc(filterLabel) : ""}</p>
       </div>
-      ${trayFullHTML({ compact: true, eager: true, filter: "all", alt: "August tray", label: "All receipts" })}
+      ${oakHTML(trayList, { size: "compact", filter: "all", eager: true, alt: "August tray", label: "All receipts", layout: COMPACT_LAYOUT })}
       <div class="snap-row">
         ${stats.map((c, i) => `
-          <button class="snap-card press ${state.filterCat === c.id ? "on" : ""}" type="button" data-filter="${c.id}" aria-label="Filter ${esc(c.label)}" aria-pressed="${state.filterCat === c.id}">
-            ${catImg(c, c.label, i < 2)}
+          <div class="snap-card ${state.filterCat === c.id ? "on" : ""}" data-filter="${c.id}">
+            ${oakHTML(c.items.slice(0, 2), { size: "pick", filter: c.id, label: "Filter " + c.label, alt: c.label, eager: i < 2, layout: MINI_LAYOUT })}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
-          </button>`).join("")}
+          </div>`).join("")}
       </div>
       <div class="wallet-stack">
         ${shown.length
@@ -461,11 +460,11 @@
       </div>
       <div class="boxes-grid">
         ${stats.map((c, i) => `
-          <button class="boxes-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            ${catImg(c, c.label, i < 2)}
+          <div class="boxes-tile" data-cat="${c.id}">
+            ${oakHTML(c.items, { size: "cell", cat: c.id, label: c.label + ", " + money(c.total), alt: c.label, eager: i < 2 })}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${c.count ? money(c.total) : "Empty"}</div>
-          </button>`).join("")}
+          </div>`).join("")}
       </div>`;
   }
 
@@ -473,7 +472,7 @@
     const list = allReceipts();
     const items = isAll ? list : inCat(list, catId);
     const cat = isAll
-      ? { id: "all", label: "August", img: TRAY.src, w: TRAY.w, h: TRAY.h }
+      ? { id: "all", label: "August" }
       : catById(catId);
     const back = backLabel();
     const empty = !items.length;
@@ -483,26 +482,21 @@
           <h1>August</h1>
           <p class="sub"><span class="total">${money(sum(items))}</span> · ${countWord(items.length)}</p>
         </div>
-        ${trayFullHTML({ eager: true, hit: false, alt: "August tray" })}
-        <div class="wallet-stack">
-          ${sorted(items).map((r, i) => slipCard(r, i)).join("")}
-        </div>`;
+        ${oakHTML(items, { size: "full", layout: DRAWER_LAYOUT, eager: true, hit: false, alt: "August tray" })}
+        <p class="oak-hint">Tap a slip for the full sheet.</p>`;
     }
     return `${navHTML({ back: back, title: cat.label })}
-      <div class="cat-hero">
-        ${catImg(cat, cat.label, true)}
-      </div>
-      <div class="cat-heading">
+      <div class="large-title">
         <h1>${esc(cat.label)}</h1>
-        <div class="sum">${money(sum(items))}</div>
-        <div class="sub">${empty ? "No receipts yet" : countWord(items.length)}</div>
+        <p class="sub"><span class="total">${money(sum(items))}</span> · ${empty ? "No receipts yet" : countWord(items.length)}</p>
       </div>
+      ${oakHTML(items, { size: "full", layout: CAT_LAYOUT, eager: true, hit: false, alt: cat.label + " box" })}
       ${empty
         ? `<div class="empty">
             <p>This box is empty. Add a receipt and it lands here.</p>
             <button class="btn" type="button" data-act="add" data-pref="${esc(catId || "")}">Add Receipt</button>
           </div>`
-        : `<div class="wallet-stack">${sorted(items).map((r, i) => slipCard(r, i)).join("")}</div>`}`;
+        : `<p class="oak-hint">Tap a slip for the full sheet.</p>`}`;
   }
 
   function detailHTML(id) {
@@ -510,16 +504,17 @@
     if (!r) return `<div class="empty"><p>Receipt gone.</p></div>`;
     const cat = catById(r.category);
     const done = `<button class="nav-action strong" type="button" data-act="back">Done</button>`;
+    const pile = cat ? inCat(allReceipts(), cat.id) : [];
     return `${navHTML({ back: backLabel(), title: "", right: done })}
       <div class="detail-paper">
         ${slipFull(r)}
       </div>
-      ${cat && cat.img
+      ${cat
         ? `<div class="section-head">In the box</div>
-           <button class="detail-box press" type="button" data-cat="${cat.id}">
-             ${catImg(cat, cat.label)}
+           <div class="detail-box">
+             ${oakHTML(pile, { size: "mini", cat: cat.id, label: cat.label, alt: cat.label })}
              <div class="cap">${esc(cat.label)}</div>
-           </button>`
+           </div>`
         : ""}`;
   }
 
@@ -556,7 +551,7 @@
             ${CATS.map((c) => `
               <button class="pick-tile press ${f.cat === c.id ? "on" : ""}" type="button" data-pick="${c.id}" aria-label="${esc(c.label)}" aria-pressed="${f.cat === c.id}">
                 <span class="pick-check">${ICON_CHECK}</span>
-                ${catImg(c, c.label)}
+                ${oakHTML([], { size: "pick", hit: false, alt: c.label, eager: false })}
                 <div class="cap">${esc(c.label)}</div>
               </button>`).join("")}
           </div>
@@ -794,6 +789,7 @@
     const root = stageEl.querySelector(".screen.root");
     if (root && state.stack.length === 1 && state.tab === "home") {
       root.innerHTML = homeHTML();
+      bindScreen(root);
     }
   }
 
@@ -828,6 +824,11 @@
         if (a === "all") { openAll(); return; }
         if (a === "add") { openAdd(act.getAttribute("data-pref") || null); return; }
       }
+      const row = e.target.closest("[data-id]");
+      if (row && row.getAttribute("data-id")) {
+        openDetail(row.getAttribute("data-id"));
+        return;
+      }
       const filter = e.target.closest("[data-filter]");
       if (filter) {
         applyFilter(filter.getAttribute("data-filter"));
@@ -837,14 +838,6 @@
       if (cat && cat.getAttribute("data-cat")) {
         openCategory(cat.getAttribute("data-cat"));
         return;
-      }
-      const row = e.target.closest("[data-id]");
-      if (row && row.getAttribute("data-id")) {
-        openDetail(row.getAttribute("data-id"));
-        return;
-      }
-      if (e.target.closest(".tray-well")) {
-        openAll();
       }
     });
   }
