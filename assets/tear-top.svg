@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 18" preserveAspectRatio="none">
+  <!-- soft irregular thermal tear — cubic lobes, not triangular teeth -->
+  <path fill="#fff" d="M0,18 L0,8
+    C18,3 34,14 52,6
+    C68,0 82,12 104,7
+    C126,1 148,15 176,5
+    C198,0 214,13 242,8
+    C268,2 292,16 322,6
+    C344,1 366,12 400,5
+    L400,18 Z"/>
+</svg>

@@ -41,34 +41,34 @@
       items: [{ name: "Margherita", price: 18 }, { name: "Diavola", price: 22.5 }, { name: "Garlic knots", price: 8 }, { name: "Tax", price: 5.8 }] },
     { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", time: "08:11", amount: 6.5, category: "coffee",
       addr: "315 LINDEN ST\nSAN FRANCISCO, CA",
-      items: [{ name: "New Orleans iced", price: 6.5 }] },
+      items: [{ name: "New Orleans iced", price: 4.75 }, { name: "Oat milk", price: 0.75 }, { name: "Madeleine", price: 1 }] },
     { id: "uber", merchant: "Uber", date: "15 AUG", time: "22:04", amount: 18.4, category: "rides",
       addr: "TRIP · SF",
-      items: [{ name: "Mission → North Beach", price: 16 }, { name: "Booking fee", price: 2.4 }] },
+      items: [{ name: "Mission → North Beach", price: 14.2 }, { name: "Booking fee", price: 2.4 }, { name: "Tip", price: 1.8 }] },
     { id: "chipotle", merchant: "Chipotle", date: "20 AUG", time: "12:36", amount: 14.85, category: "other",
       addr: "211 SUTTER ST\nSAN FRANCISCO, CA",
-      items: [{ name: "Chicken bowl", price: 12.5 }, { name: "Tax", price: 2.35 }] },
+      items: [{ name: "Chicken bowl", price: 10.5 }, { name: "Chips", price: 1.85 }, { name: "Fountain drink", price: 2.5 }] },
     { id: "yakuza", merchant: "Yakuza", date: "14 AUG", time: "20:18", amount: 38.5, category: "other",
       addr: "FILLMORE ST\nSAN FRANCISCO, CA",
       items: [{ name: "Ramen", price: 18 }, { name: "Gyoza", price: 9.5 }, { name: "Highball", price: 8 }, { name: "Tax", price: 3 }] },
     { id: "starbucks", merchant: "Starbucks", date: "08 AUG", time: "07:52", amount: 5.75, category: "coffee",
       addr: "201 POWELL ST\nSAN FRANCISCO, CA",
-      items: [{ name: "Iced Americano", price: 5.75 }] },
+      items: [{ name: "Iced Americano", price: 3.95 }, { name: "Oat milk", price: 0.8 }, { name: "Butter croissant", price: 1 }] },
     { id: "wholefoods", merchant: "Whole Foods", date: "03 AUG", time: "11:07", amount: 42.16, category: "groceries",
       addr: "1765 CALIFORNIA ST\nSAN FRANCISCO, CA",
       items: [{ name: "Heirloom tomatoes", price: 6.49 }, { name: "Sourdough", price: 5.99 }, { name: "Oat milk", price: 4.79 }, { name: "Mixed greens", price: 3.99 }, { name: "Pasta", price: 4.49 }, { name: "Olive oil", price: 12.99 }, { name: "Tax", price: 3.42 }] },
     { id: "amc", merchant: "AMC", date: "16 AUG", time: "16:40", amount: 24.0, category: "other",
       addr: "METREON\nSAN FRANCISCO, CA",
-      items: [{ name: "Ticket", price: 16 }, { name: "Popcorn", price: 8 }] },
+      items: [{ name: "Ticket", price: 16 }, { name: "Popcorn", price: 6 }, { name: "Soda", price: 2 }] },
     { id: "shell", merchant: "Shell", date: "09 AUG", time: "17:21", amount: 45.2, category: "other",
       addr: "VAN NESS AVE\nSAN FRANCISCO, CA",
-      items: [{ name: "Regular  12.4 gal", price: 45.2 }] },
+      items: [{ name: "Regular  12.4 gal", price: 39.2 }, { name: "Water", price: 3.5 }, { name: "Car wash", price: 2.5 }] },
     { id: "ikea", merchant: "IKEA", date: "22 AUG", time: "14:03", amount: 89.0, category: "home",
       addr: "EMERYVILLE, CA",
-      items: [{ name: "Lack table", price: 49 }, { name: "Billy extras", price: 32 }, { name: "Hot dog", price: 8 }] },
+      items: [{ name: "Lack table", price: 49 }, { name: "RANARP lamp", price: 32 }, { name: "Hot dog", price: 8 }] },
     { id: "philz", merchant: "Philz", date: "05 AUG", time: "09:14", amount: 7.65, category: "coffee",
       addr: "HAIGHT ST\nSAN FRANCISCO, CA",
-      items: [{ name: "Tesora  large", price: 7.65 }] },
+      items: [{ name: "Tesora  large", price: 5.25 }, { name: "Oat milk", price: 1.15 }, { name: "Dark chocolate", price: 1.25 }] },
     { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", time: "19:05", amount: 68.0, category: "other",
       addr: "SAUSALITO, CA",
       items: [{ name: "Omakase lunch", price: 58 }, { name: "Green tea", price: 4 }, { name: "Tax", price: 6 }] },
@@ -77,59 +77,31 @@
       items: [{ name: "Mandarins", price: 3.99 }, { name: "Frozen gyoza", price: 4.49 }, { name: "Everything bagel", price: 2.29 }, { name: "Dark chocolate", price: 2.99 }, { name: "Flowers", price: 7.99 }, { name: "Sparkling water", price: 3.49 }, { name: "Tax", price: 6.91 }] },
   ];
 
+  /* Fewer, bigger slips on the floor. Extra receipts peek under. rotate is in-plane (Z). */
   const TRAY_LAYOUT = [
-    { top: "4%", left: "4%", rot: -11 },
-    { top: "8%", left: "34%", rot: 8 },
-    { top: "2%", left: "62%", rot: -5 },
-    { top: "40%", left: "8%", rot: 7 },
-    { top: "46%", left: "38%", rot: -12 },
-    { top: "38%", left: "64%", rot: 5 },
+    { top: "14%", left: "2%", rot: -7 },
+    { top: "24%", left: "28%", rot: 5 },
+    { top: "42%", left: "8%", rot: -4 },
   ];
 
   const COMPACT_LAYOUT = [
-    { top: "6%", left: "8%", rot: -9 },
-    { top: "18%", left: "42%", rot: 7 },
+    { top: "16%", left: "4%", rot: -6 },
+    { top: "30%", left: "30%", rot: 5 },
   ];
 
-  const DRAWER_LAYOUT = [
-    { top: "2%", left: "2%", rot: -11 },
-    { top: "4%", left: "30%", rot: 7 },
-    { top: "1%", left: "56%", rot: -5 },
-    { top: "22%", left: "0%", rot: 9 },
-    { top: "26%", left: "26%", rot: -14 },
-    { top: "20%", left: "50%", rot: 5 },
-    { top: "24%", left: "72%", rot: -8 },
-    { top: "46%", left: "4%", rot: 4 },
-    { top: "50%", left: "32%", rot: -7 },
-    { top: "44%", left: "58%", rot: 12 },
-    { top: "68%", left: "12%", rot: -3 },
-    { top: "66%", left: "40%", rot: 8 },
-    { top: "70%", left: "64%", rot: -10 },
-  ];
+  const DRAWER_LAYOUT = TRAY_LAYOUT;
 
   const CAT_LAYOUT = [
-    { top: "8%", left: "8%", rot: -8 },
-    { top: "6%", left: "40%", rot: 6 },
-    { top: "12%", left: "66%", rot: -4 },
-    { top: "46%", left: "10%", rot: 9 },
-    { top: "42%", left: "42%", rot: -11 },
-    { top: "50%", left: "68%", rot: 5 },
-    { top: "72%", left: "22%", rot: -6 },
-    { top: "70%", left: "52%", rot: 8 },
+    { top: "12%", left: "0%", rot: -6 },
+    { top: "24%", left: "26%", rot: 5 },
   ];
 
   const CELL_LAYOUT = [
-    { top: "10%", left: "10%", rot: -10 },
-    { top: "14%", left: "48%", rot: 7 },
-    { top: "48%", left: "18%", rot: 5 },
-    { top: "52%", left: "52%", rot: -8 },
+    { top: "16%", left: "0%", rot: -7 },
+    { top: "32%", left: "22%", rot: 5 },
   ];
 
-  const MINI_LAYOUT = [
-    { top: "12%", left: "14%", rot: -9 },
-    { top: "18%", left: "50%", rot: 6 },
-    { top: "52%", left: "28%", rot: -5 },
-  ];
+  const MINI_LAYOUT = CELL_LAYOUT;
 
   const BACK_CHEV = `<svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const ICON_HOME = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hidden="true"><path d="M4.2 11.6 L12.5 4.4 L20.8 11.6 V20.2 a1.8 1.8 0 0 1-1.8 1.8 h-4.1 v-6.2 h-4.8 v6.2 H6 a1.8 1.8 0 0 1-1.8-1.8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
@@ -201,7 +173,7 @@
     const layout = opts.layout
       || (size === "cell" || size === "pick" ? CELL_LAYOUT
         : size === "mini" || size === "compact" ? MINI_LAYOUT
-        : size === "full" ? DRAWER_LAYOUT
+        : size === "full" ? CAT_LAYOUT
         : TRAY_LAYOUT);
     const cls = ["oak", "size-" + size];
     if (opts.cls) cls.push(opts.cls);
@@ -243,9 +215,39 @@
     return `<svg viewBox="0 0 ${x} ${h}" preserveAspectRatio="none" aria-hidden="true">${bars}</svg>`;
   }
 
+  function inventItems(r) {
+    const amt = Number(r.amount) || 0;
+    const packs = {
+      coffee: ["Drip coffee", "Oat milk", "Croissant"],
+      groceries: ["Produce", "Bread", "Milk"],
+      rides: ["Trip fare", "Booking fee", "Tip"],
+      home: ["Item", "Hardware", "Bag"],
+      other: [r.merchant || "Item", "Add-on", "Extra"],
+    };
+    const names = packs[r.category] || packs.other;
+    const a = Math.round(amt * 0.62 * 100) / 100;
+    const b = Math.round(amt * 0.24 * 100) / 100;
+    const c = Math.round((amt - a - b) * 100) / 100;
+    const out = [{ name: names[0], price: a }, { name: names[1], price: b }];
+    if (c > 0.05) out.push({ name: names[2], price: Math.max(c, 0) });
+    return out;
+  }
+
+  function lineItems(r) {
+    let items = (r.items && r.items.length) ? r.items.slice() : [];
+    items = items.filter((it) => !/^tax$/i.test(String(it.name)));
+    if (items.length < 2) items = inventItems(r);
+    return items;
+  }
+
   function slipBody(r, compact) {
+    const items = lineItems(r).slice(0, compact ? 3 : 4);
+    const lines = items.map((it) =>
+      `<div class="slip-line"><span>${esc(up(it.name))}</span><span>${Number(it.price).toFixed(2)}</span></div>`
+    ).join("");
     return `<div class="m">${esc(up(r.merchant))}</div>
-      <div class="d">${esc(r.date)}</div>
+      <div class="lines">${lines}</div>
+      <div class="rule-mini"></div>
       <div class="t">TOTAL ${money(r.amount)}</div>
       <div class="barcode">${barcodeSVG(r.merchant + r.amount, compact ? 16 : 22)}</div>`;
   }
@@ -286,9 +288,13 @@
   }
 
   function scatterHTML(list, layout, extraClass) {
-    const loc = layout || DRAWER_LAYOUT;
-    return sorted(list).map((r, i) => {
-      const pos = Object.assign({ z: 3 + i }, loc[i] || loc[i % loc.length]);
+    const loc = layout || CAT_LAYOUT;
+    const items = sorted(list);
+    const n = Math.min(items.length, loc.length);
+    return items.slice(0, n).map((r, i) => {
+      const pos = items.length === 1
+        ? { top: "18%", left: "10%", rot: -4, z: 6 }
+        : Object.assign({ z: 8 - i }, loc[i]);
       return slipMini(r, pos, extraClass);
     }).join("");
   }
@@ -386,7 +392,7 @@
         <h1>August</h1>
         <p class="sub"><span class="total">${money(total)}</span> · ${countWord(list.length)}</p>
       </div>
-      ${oakHTML(list, { size: "hero", layout: DRAWER_LAYOUT, eager: true, label: "All August receipts", alt: "August inbox" })}
+      ${oakHTML(list, { size: "hero", layout: TRAY_LAYOUT, eager: true, label: "All August receipts", alt: "August inbox" })}
       <div class="section-head">Sorted</div>
       <div class="cat-grid">
         ${stats.map((c, i) => `
@@ -482,7 +488,7 @@
           <h1>August</h1>
           <p class="sub"><span class="total">${money(sum(items))}</span> · ${countWord(items.length)}</p>
         </div>
-        ${oakHTML(items, { size: "full", layout: DRAWER_LAYOUT, eager: true, hit: false, alt: "August tray" })}
+        ${oakHTML(items, { size: "full", layout: TRAY_LAYOUT, eager: true, hit: false, alt: "August tray" })}
         <p class="oak-hint">Tap a slip for the full sheet.</p>`;
     }
     return `${navHTML({ back: back, title: cat.label })}
@@ -727,7 +733,7 @@
       time: now.toTimeString().slice(0, 5),
       amount: Math.round(amount * 100) / 100,
       category: f.cat,
-      items: [{ name: merchant, price: Math.round(amount * 100) / 100 }],
+      items: inventItems({ merchant: merchant, amount: Math.round(amount * 100) / 100, category: f.cat }),
     };
     const extras = loadExtras();
     extras.push(rec);
