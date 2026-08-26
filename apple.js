@@ -10,7 +10,7 @@
     minimumFractionDigits: 2,
   });
 
-  const TRAY = { src: "assets/3d/box-tray.webp", w: 800, h: 541 };
+  const TRAY = { src: "assets/3d/wood-tray.webp", w: 800, h: 679 };
   const CATS = [
     { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.webp", w: 800, h: 735 },
     { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.webp", w: 800, h: 748 },
@@ -78,28 +78,33 @@
   ];
 
   const TRAY_LAYOUT = [
-    { top: "6%", left: "4%", rot: -11 },
-    { top: "10%", left: "38%", rot: 8 },
-    { top: "4%", left: "66%", rot: -5 },
-    { top: "42%", left: "8%", rot: 7 },
-    { top: "48%", left: "40%", rot: -12 },
-    { top: "40%", left: "68%", rot: 5 },
+    { top: "4%", left: "4%", rot: -11 },
+    { top: "8%", left: "34%", rot: 8 },
+    { top: "2%", left: "62%", rot: -5 },
+    { top: "40%", left: "8%", rot: 7 },
+    { top: "46%", left: "38%", rot: -12 },
+    { top: "38%", left: "64%", rot: 5 },
+  ];
+
+  const COMPACT_LAYOUT = [
+    { top: "6%", left: "8%", rot: -9 },
+    { top: "18%", left: "42%", rot: 7 },
   ];
 
   const DRAWER_LAYOUT = [
-    { top: "4%", left: "4%", rot: -11 },
-    { top: "6%", left: "34%", rot: 7 },
-    { top: "3%", left: "64%", rot: -5 },
-    { top: "28%", left: "2%", rot: 9 },
-    { top: "32%", left: "30%", rot: -14 },
-    { top: "26%", left: "58%", rot: 5 },
-    { top: "30%", left: "76%", rot: -8 },
-    { top: "54%", left: "6%", rot: 4 },
-    { top: "58%", left: "36%", rot: -7 },
-    { top: "52%", left: "64%", rot: 12 },
-    { top: "76%", left: "16%", rot: -3 },
-    { top: "74%", left: "46%", rot: 8 },
-    { top: "78%", left: "70%", rot: -10 },
+    { top: "2%", left: "2%", rot: -11 },
+    { top: "4%", left: "30%", rot: 7 },
+    { top: "1%", left: "56%", rot: -5 },
+    { top: "22%", left: "0%", rot: 9 },
+    { top: "26%", left: "26%", rot: -14 },
+    { top: "20%", left: "50%", rot: 5 },
+    { top: "24%", left: "72%", rot: -8 },
+    { top: "46%", left: "4%", rot: 4 },
+    { top: "50%", left: "32%", rot: -7 },
+    { top: "44%", left: "58%", rot: 12 },
+    { top: "68%", left: "12%", rot: -3 },
+    { top: "66%", left: "40%", rot: 8 },
+    { top: "70%", left: "64%", rot: -10 },
   ];
 
   const CAT_LAYOUT = [
@@ -178,6 +183,25 @@
   }
   function trayImg(alt, eager) {
     return imgHTML(TRAY.src, TRAY.w, TRAY.h, alt || "August tray", eager);
+  }
+
+  function trayStageHTML(list, layout, opts) {
+    opts = opts || {};
+    const cls = ["tray-stage"];
+    if (opts.compact) cls.push("compact");
+    if (opts.full) cls.push("full");
+    const hit = opts.hit === false
+      ? ""
+      : opts.filter
+        ? `<button class="tray-hit press" type="button" data-filter="${esc(opts.filter)}" aria-label="${esc(opts.label || "All receipts")}"></button>`
+        : `<button class="tray-hit press" type="button" data-act="${esc(opts.act || "all")}" aria-label="${esc(opts.label || "All August receipts")}"></button>`;
+    return `<div class="${cls.join(" ")}">
+      ${trayImg(opts.alt || "August tray", opts.eager !== false)}
+      <div class="tray-well">
+        ${scatterHTML(list, layout || TRAY_LAYOUT)}
+      </div>
+      ${hit}
+    </div>`;
   }
 
   function barcodeSVG(seed, h) {
@@ -343,14 +367,7 @@
         <h1>August</h1>
         <p class="sub"><span class="total">${money(total)}</span> · ${countWord(list.length)}</p>
       </div>
-      <div class="tray-stage">
-        <button class="tray-hit press" type="button" data-act="all" aria-label="All August receipts">
-          ${trayImg("August tray", true)}
-        </button>
-        <div class="tray-slips">
-          ${scatterHTML(onTray, TRAY_LAYOUT)}
-        </div>
-      </div>
+      ${trayStageHTML(onTray, TRAY_LAYOUT, { eager: true, label: "All August receipts" })}
       <div class="cat-grid">
         ${stats.map((c, i) => `
           <button class="cat-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
@@ -395,11 +412,7 @@
         <h1>August</h1>
         <p class="sub"><span class="total">${money(sum(shown))}</span> · ${countWord(shown.length)}${filterLabel ? " · " + esc(filterLabel) : ""}</p>
       </div>
-      <div class="wallet-hero compact">
-        <button class="wallet-tray press" type="button" data-filter="all" aria-label="All receipts">
-          ${trayImg("Tray", true)}
-        </button>
-      </div>
+      ${trayStageHTML(sorted(shown).slice(0, 2), COMPACT_LAYOUT, { compact: true, eager: true, filter: "all", alt: "Tray", label: "All receipts" })}
       <div class="snap-row">
         ${stats.map((c, i) => `
           <button class="snap-card press ${state.filterCat === c.id ? "on" : ""}" type="button" data-filter="${c.id}" aria-label="Filter ${esc(c.label)}" aria-pressed="${state.filterCat === c.id}">
@@ -446,8 +459,15 @@
       : catById(catId);
     const back = backLabel();
     const empty = !items.length;
-    const layout = isAll ? DRAWER_LAYOUT : CAT_LAYOUT;
-    const wellClass = isAll ? "paper-drawer tall" : (items.length > 4 ? "paper-drawer" : "paper-drawer cozy");
+    if (isAll) {
+      return `${navHTML({ back: back, title: "August" })}
+        <div class="large-title">
+          <h1>August</h1>
+          <p class="sub"><span class="total">${money(sum(items))}</span> · ${countWord(items.length)}</p>
+        </div>
+        ${trayStageHTML(items, DRAWER_LAYOUT, { full: true, eager: true, hit: false, alt: "August tray" })}`;
+    }
+    const wellClass = items.length > 4 ? "paper-drawer" : "paper-drawer cozy";
     return `${navHTML({ back: back, title: cat.label })}
       <div class="cat-hero">
         ${catImg(cat, cat.label, true)}
@@ -462,7 +482,7 @@
             <p>This box is empty. Add a receipt and it lands here.</p>
             <button class="btn" type="button" data-act="add" data-pref="${esc(catId || "")}">Add Receipt</button>
           </div>`
-        : `<div class="${wellClass}">${scatterHTML(items, layout)}</div>`}`;
+        : `<div class="${wellClass}">${scatterHTML(items, CAT_LAYOUT)}</div>`}`;
   }
 
   function detailHTML(id) {
@@ -803,7 +823,7 @@
         openDetail(row.getAttribute("data-id"));
         return;
       }
-      if (e.target.closest(".tray-slips")) {
+      if (e.target.closest(".tray-well")) {
         openAll();
       }
     });
