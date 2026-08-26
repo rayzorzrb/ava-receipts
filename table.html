@@ -4,83 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F2F2F7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>ava — table</title>
   <link rel="stylesheet" href="apple.css" />
 </head>
-<body>
-  <main class="phone">
-    <div class="nav">
-      <div class="nav-left">
-        <a class="back" href="index.html" aria-label="Back">
-          <svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true">
-            <path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="nav-title">ava</div>
-      <div class="nav-right">
-        <button class="nav-btn" id="add" type="button" aria-label="Add receipt">+</button>
-      </div>
-    </div>
-    <div class="large-title">
-      <h1>August</h1>
-      <p class="sub" id="count-line">13 receipts</p>
-    </div>
-
-    <div class="product" id="product">
-      <img class="product-tray" src="assets/3d/box-tray.png" alt="Tray of receipts" />
-      <img class="product-receipt" id="standing" src="assets/3d/obj-receipt.png" alt="Standing receipt" />
-    </div>
-
-    <div class="snap-row" id="snap"></div>
-
-    <div class="group" id="rows"></div>
-  </main>
-  <script src="app.js"></script>
+<body data-home="table">
+  <div id="root"></div>
   <script src="apple.js"></script>
-  <script>
-    function render() {
-      const list = AVA2.allReceipts(true);
-      document.getElementById("count-line").textContent =
-        list.length + " receipt" + (list.length === 1 ? "" : "s");
-
-      const snap = document.getElementById("snap");
-      snap.innerHTML = AVA2.catStats(list).map((c) => `
-        <button class="snap-card" type="button" data-cat="${c.id}">
-          <img src="${c.img}" alt="${c.label}">
-          <div class="cap">${c.label}</div>
-          <div class="meta">${AVA2.money(c.total)} · ${c.count}</div>
-        </button>`).join("");
-
-      const rows = document.getElementById("rows");
-      rows.innerHTML = AVA2.sorted(list).map((r) => AVA2.rowHTML(r, { greyAmt: true })).join("");
-      rows.querySelectorAll("[data-id]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const r = list.find((x) => x.id === btn.dataset.id);
-          if (r) AVA2.openDetail(r);
-        });
-      });
-    }
-
-    document.getElementById("snap").addEventListener("click", (e) => {
-      const card = e.target.closest("[data-cat]");
-      if (!card) return;
-      const list = AVA2.allReceipts(true);
-      const cat = AVA2.CATS.find((c) => c.id === card.dataset.cat);
-      AVA2.openSheet(AVA2.titleCase(cat.label), AVA2.inCat(list, card.dataset.cat));
-    });
-
-    document.getElementById("add").addEventListener("click", () => {
-      AVA2.dummyReceipt();
-      const standing = document.getElementById("standing");
-      const clone = standing.cloneNode(true);
-      clone.classList.add("spawn");
-      standing.replaceWith(clone);
-      render();
-      AVA2.toast("Printed");
-    });
-
-    render();
-  </script>
 </body>
 </html>

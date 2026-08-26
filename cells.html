@@ -4,92 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F2F2F7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>ava — cells</title>
   <link rel="stylesheet" href="apple.css" />
 </head>
-<body>
-  <main class="phone">
-    <div class="view on" id="home">
-    <div class="nav">
-      <div class="nav-left">
-        <a class="back" href="index.html" aria-label="Back">
-          <svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true">
-            <path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-      <div class="nav-title">ava</div>
-      <div class="nav-right"></div>
-    </div>
-      <div class="large-title">
-        <h1>August</h1>
-        <p class="sub" id="home-total"></p>
-      </div>
-      <div class="home-grid" id="home-grid"></div>
-    </div>
-
-    <div class="view" id="cat">
-      <div class="nav">
-        <div class="nav-left">
-          <button class="back" type="button" id="back-home" aria-label="Back">
-            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true">
-              <path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>August</span>
-          </button>
-        </div>
-        <div class="nav-title" id="cat-nav-title"></div>
-        <div class="nav-right"></div>
-      </div>
-      <div class="large-title">
-        <h1 id="cat-title"></h1>
-        <p class="sub" id="cat-sub"></p>
-      </div>
-      <div class="group" id="cat-rows"></div>
-    </div>
-  </main>
-  <script src="app.js"></script>
+<body data-home="cells">
+  <div id="root"></div>
   <script src="apple.js"></script>
-  <script>
-    const list = AVA2.allReceipts(false);
-    document.getElementById("home-total").textContent = AVA2.money(AVA2.sum(list));
-
-    const grid = document.getElementById("home-grid");
-    grid.innerHTML = AVA2.catStats(list).map((c) => `
-      <button class="home-tile" type="button" data-cat="${c.id}">
-        <img src="${c.img}" alt="${c.label}">
-        <div class="cap">${AVA2.titleCase(c.label)}</div>
-      </button>`).join("");
-
-    function showHome() {
-      document.getElementById("home").classList.add("on");
-      document.getElementById("cat").classList.remove("on");
-    }
-    function showCat(id) {
-      const cat = AVA2.CATS.find((c) => c.id === id);
-      const items = AVA2.sorted(AVA2.inCat(list, id));
-      const name = AVA2.titleCase(cat.label);
-      document.getElementById("cat-nav-title").textContent = name;
-      document.getElementById("cat-title").textContent = name;
-      document.getElementById("cat-sub").textContent =
-        items.length + " receipt" + (items.length === 1 ? "" : "s") + " · " + AVA2.money(AVA2.sum(items));
-      const box = document.getElementById("cat-rows");
-      box.innerHTML = items.map((r) => AVA2.rowHTML(r, { thumb: true, greyAmt: true })).join("");
-      box.querySelectorAll("[data-id]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const r = items.find((x) => x.id === btn.dataset.id);
-          if (r) AVA2.openDetail(r);
-        });
-      });
-      document.getElementById("home").classList.remove("on");
-      document.getElementById("cat").classList.add("on");
-    }
-
-    grid.addEventListener("click", (e) => {
-      const tile = e.target.closest("[data-cat]");
-      if (tile) showCat(tile.dataset.cat);
-    });
-    document.getElementById("back-home").addEventListener("click", showHome);
-  </script>
 </body>
 </html>
