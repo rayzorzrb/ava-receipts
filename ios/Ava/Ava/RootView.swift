@@ -11,7 +11,7 @@ struct RootView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color(red: 247/255, green: 247/255, blue: 245/255).ignoresSafeArea()
+            Color(red: 242/255, green: 242/255, blue: 247/255).ignoresSafeArea()
 
             Group {
                 if let selected {
@@ -26,7 +26,7 @@ struct RootView: View {
                     HomeView(onOpen: { category = $0 }, onTapSlip: { selected = $0 })
                 }
             }
-            .padding(.bottom, 72)
+            .padding(.bottom, 88)
 
             tabBar
         }
@@ -40,26 +40,32 @@ struct RootView: View {
 
     private var tabBar: some View {
         HStack {
-            tabButton(.home, label: "Home", system: "house")
-            Spacer()
+            tabButton(.home, label: "Home", system: "house.fill")
+            Spacer(minLength: 0)
             Button {
                 showAdd = true
             } label: {
-                Text("+")
-                    .font(.system(size: 28, weight: .regular))
+                Image(systemName: "plus")
+                    .font(.system(size: 20, weight: .semibold))
                     .foregroundStyle(.white)
-                    .frame(width: 52, height: 52)
-                    .background(Color(red: 0, green: 122/255, blue: 1))
+                    .frame(width: 48, height: 48)
+                    .background(Color.accentColor)
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                    .shadow(color: Color(red: 0, green: 122/255, blue: 1).opacity(0.35), radius: 12, y: 6)
+                    .shadow(color: Color.accentColor.opacity(0.38), radius: 10, y: 4)
             }
-            Spacer()
-            tabButton(.boxes, label: "Boxes", system: "square.grid.2x2")
+            .accessibilityLabel("New receipt")
+            Spacer(minLength: 0)
+            tabButton(.boxes, label: "Boxes", system: "square.grid.2x2.fill")
         }
-        .padding(.horizontal, 36)
-        .padding(.top, 8)
-        .padding(.bottom, 8)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .frame(height: 64)
         .background(.ultraThinMaterial)
+        .clipShape(Capsule(style: .continuous))
+        .overlay(Capsule(style: .continuous).strokeBorder(Color.white.opacity(0.55), lineWidth: 0.5))
+        .shadow(color: .black.opacity(0.16), radius: 20, y: 8)
+        .padding(.horizontal, 12)
+        .padding(.bottom, 10)
     }
 
     private func tabButton(_ t: Tab, label: String, system: String) -> some View {
