@@ -172,7 +172,7 @@ input {
   padding: 0 4px 10px; min-height: 44px; background: transparent;
 }
 .cat-tile img { width: 100%; filter: drop-shadow(0 10px 16px rgba(0,0,0,0.10)); }
-.cat-tile .cap { margin-top: -8px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
+.cat-tile .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .cat-tile .meta { margin-top: 2px; font-size: 13px; color: var(--label); font-variant-numeric: tabular-nums; }
 
 .cells-home { display: flex; flex-direction: column; height: 100%; min-height: 100%; }
@@ -186,7 +186,7 @@ input {
 }
 .cells-tile img, .home-tile img { width: 100%; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.11)); }
 .cells-tile .cap, .home-tile .cap {
-  margin-top: -12px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px;
+  margin-top: 2px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px;
 }
 .cells-tile .meta, .home-tile .meta { margin-top: 1px; font-size: 13px; color: var(--label); font-variant-numeric: tabular-nums; }
 
@@ -198,7 +198,7 @@ input {
   padding: 0 4px 12px; min-height: 44px; background: transparent;
 }
 .boxes-tile img { width: 100%; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.11)); }
-.boxes-tile .cap { margin-top: -8px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+.boxes-tile .cap { margin-top: 2px; font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
 .boxes-tile .meta { margin-top: 2px; font-size: 13px; color: var(--label); font-variant-numeric: tabular-nums; }
 
 .wallet-hero, .wallet-id {
@@ -225,7 +225,7 @@ input {
   min-height: 44px; background: transparent;
 }
 .snap-card img { width: 100%; filter: drop-shadow(0 10px 14px rgba(0,0,0,0.11)); }
-.snap-card .cap { margin-top: -8px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
+.snap-card .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .snap-card .meta { font-size: 12px; color: var(--label); font-variant-numeric: tabular-nums; }
 
 .group { margin: 0 16px 16px; background: var(--card); border-radius: var(--radius); overflow: hidden; }
@@ -256,7 +256,7 @@ input {
 
 .cat-hero { display: flex; justify-content: center; padding: 4px 28px 0; background: transparent; }
 .cat-hero img { width: min(280px, 72%); filter: drop-shadow(0 16px 24px rgba(0,0,0,0.12)); }
-.cat-heading { text-align: center; padding: 0 16px 16px; margin-top: -8px; }
+.cat-heading { text-align: center; padding: 0 16px 16px; margin-top: 0; }
 .cat-heading h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; line-height: 34px; }
 .cat-heading .sum { margin-top: 2px; font-size: 22px; font-weight: 600; letter-spacing: -0.4px; font-variant-numeric: tabular-nums; }
 .cat-heading .sub { margin-top: 2px; font-size: 15px; color: var(--label); }
@@ -357,7 +357,7 @@ input {
   padding: 0 4px 8px; min-height: 44px; border-radius: 16px; background: transparent; position: relative;
 }
 .pick-tile img, .picker-tile img { width: 100%; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.10)); }
-.pick-tile .cap, .picker-tile .cap { margin-top: -8px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
+.pick-tile .cap, .picker-tile .cap { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.08px; }
 .pick-tile.on .cap { color: var(--blue); }
 .pick-tile.on img { filter: drop-shadow(0 8px 12px rgba(0,122,255,0.28)); }
 .pick-check {
@@ -559,7 +559,7 @@ input {
 }
 .slip-full .barcode.tall { height: 42px; margin: 12px 8px 4px; }
 
-/* tray with live paper — wood-tray.webp is the stage; slips sit in the inner floor */
+/* oak tray family — stuffed month tray, or empty well for live paper */
 .tray-stage {
   position: relative;
   display: block;
@@ -571,8 +571,12 @@ input {
   height: auto;
   display: block;
   filter: drop-shadow(0 16px 24px rgba(0,0,0,0.12));
-  aspect-ratio: 800 / 679;
+  object-fit: contain;
 }
+.tray-stage.stuffed { width: 90%; margin: 4px auto 10px; }
+.tray-stage.stuffed > img { aspect-ratio: 800 / 546; }
+.tray-stage.stuffed.compact { width: 58%; margin: 4px auto 12px; }
+
 /* Inner floor of the cropped 800×679 tray (measured):
    back of floor ~26% down, front rim ~79%;
    inner walls ~18% left / 12% right at the front, narrower at the back.
@@ -697,7 +701,7 @@ input {
   background: transparent;
 }
 .detail-box img { width: 100%; filter: drop-shadow(0 10px 14px rgba(0,0,0,0.11)); }
-.detail-box .cap { margin-top: -8px; font-size: 13px; font-weight: 600; }
+.detail-box .cap { margin-top: 2px; font-size: 13px; font-weight: 600; }
 
 .home-pick .art.split { position: relative; }
 .chooser-slip {
@@ -722,9 +726,9 @@ input {
   );
 }
 
-.cat-hero img { aspect-ratio: 800 / 730; object-fit: contain; }
+.cat-hero img { aspect-ratio: 800 / 540; object-fit: contain; }
 .cat-tile img, .cells-tile img, .boxes-tile img, .pick-tile img, .snap-card img {
-  aspect-ratio: 800 / 730;
+  aspect-ratio: 800 / 540;
   object-fit: contain;
 }
 

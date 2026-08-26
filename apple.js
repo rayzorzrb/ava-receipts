@@ -10,12 +10,13 @@
     minimumFractionDigits: 2,
   });
 
-  const TRAY = { src: "assets/3d/wood-tray.webp", w: 800, h: 679 };
+  const TRAY = { src: "assets/3d/wood-tray.webp", w: 746, h: 800 };
+  const TRAY_FULL = { src: "assets/3d/tray-full.webp", w: 800, h: 546 };
   const CATS = [
-    { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.webp", w: 800, h: 735 },
-    { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.webp", w: 800, h: 748 },
-    { id: "rides", label: "Rides", img: "assets/3d/box-rides.webp", w: 800, h: 720 },
-    { id: "home", label: "Home", img: "assets/3d/box-home.webp", w: 800, h: 726 },
+    { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.webp", w: 800, h: 553 },
+    { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.webp", w: 800, h: 562 },
+    { id: "rides", label: "Rides", img: "assets/3d/box-rides.webp", w: 800, h: 455 },
+    { id: "home", label: "Home", img: "assets/3d/box-home.webp", w: 800, h: 542 },
   ];
   const CAT_OTHER = { id: "other", label: "Other", img: null };
 
@@ -183,6 +184,24 @@
   }
   function trayImg(alt, eager) {
     return imgHTML(TRAY.src, TRAY.w, TRAY.h, alt || "August tray", eager);
+  }
+  function trayFullImg(alt, eager) {
+    return imgHTML(TRAY_FULL.src, TRAY_FULL.w, TRAY_FULL.h, alt || "August tray", eager);
+  }
+
+  function trayFullHTML(opts) {
+    opts = opts || {};
+    const cls = ["tray-stage", "stuffed"];
+    if (opts.compact) cls.push("compact");
+    const hit = opts.hit === false
+      ? ""
+      : opts.filter
+        ? `<button class="tray-hit press" type="button" data-filter="${esc(opts.filter)}" aria-label="${esc(opts.label || "All receipts")}"></button>`
+        : `<button class="tray-hit press" type="button" data-act="${esc(opts.act || "all")}" aria-label="${esc(opts.label || "All August receipts")}"></button>`;
+    return `<div class="${cls.join(" ")}">
+      ${trayFullImg(opts.alt || "August tray", opts.eager !== false)}
+      ${hit}
+    </div>`;
   }
 
   function trayStageHTML(list, layout, opts) {
@@ -361,13 +380,12 @@
     const total = sum(list);
     const stats = catStats(list);
     const recent = sorted(list).slice(0, 4);
-    const onTray = sorted(list).slice(0, 6);
     return `${navHTML({ title: "ava" })}
       <div class="large-title">
         <h1>August</h1>
         <p class="sub"><span class="total">${money(total)}</span> · ${countWord(list.length)}</p>
       </div>
-      ${trayStageHTML(onTray, TRAY_LAYOUT, { eager: true, label: "All August receipts" })}
+      ${trayFullHTML({ eager: true, label: "All August receipts" })}
       <div class="cat-grid">
         ${stats.map((c, i) => `
           <button class="cat-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
@@ -412,7 +430,7 @@
         <h1>August</h1>
         <p class="sub"><span class="total">${money(sum(shown))}</span> · ${countWord(shown.length)}${filterLabel ? " · " + esc(filterLabel) : ""}</p>
       </div>
-      ${trayStageHTML(sorted(shown).slice(0, 2), COMPACT_LAYOUT, { compact: true, eager: true, filter: "all", alt: "Tray", label: "All receipts" })}
+      ${trayFullHTML({ compact: true, eager: true, filter: "all", alt: "August tray", label: "All receipts" })}
       <div class="snap-row">
         ${stats.map((c, i) => `
           <button class="snap-card press ${state.filterCat === c.id ? "on" : ""}" type="button" data-filter="${c.id}" aria-label="Filter ${esc(c.label)}" aria-pressed="${state.filterCat === c.id}">
@@ -465,9 +483,11 @@
           <h1>August</h1>
           <p class="sub"><span class="total">${money(sum(items))}</span> · ${countWord(items.length)}</p>
         </div>
-        ${trayStageHTML(items, DRAWER_LAYOUT, { full: true, eager: true, hit: false, alt: "August tray" })}`;
+        ${trayFullHTML({ eager: true, hit: false, alt: "August tray" })}
+        <div class="wallet-stack">
+          ${sorted(items).map((r, i) => slipCard(r, i)).join("")}
+        </div>`;
     }
-    const wellClass = items.length > 4 ? "paper-drawer" : "paper-drawer cozy";
     return `${navHTML({ back: back, title: cat.label })}
       <div class="cat-hero">
         ${catImg(cat, cat.label, true)}
@@ -482,7 +502,7 @@
             <p>This box is empty. Add a receipt and it lands here.</p>
             <button class="btn" type="button" data-act="add" data-pref="${esc(catId || "")}">Add Receipt</button>
           </div>`
-        : `<div class="${wellClass}">${scatterHTML(items, CAT_LAYOUT)}</div>`}`;
+        : `<div class="wallet-stack">${sorted(items).map((r, i) => slipCard(r, i)).join("")}</div>`}`;
   }
 
   function detailHTML(id) {
