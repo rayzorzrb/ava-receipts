@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fbf9f5" />
+  <title>ava — drop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="phone">
+    <div class="topbar">
+      <a class="brand" href="index.html">ava</a>
+      <div class="tools">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.2" stroke="#1a1814" stroke-width="1.7"/>
+          <path d="M5 19c1.4-3.2 3.8-4.8 7-4.8s5.6 1.6 7 4.8" stroke="#1a1814" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <button class="js-info" aria-label="about this version">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.2" stroke="#1a1814" stroke-width="1.7"/>
+            <path d="M12 11v5" stroke="#1a1814" stroke-width="1.7" stroke-linecap="round"/>
+            <circle cx="12" cy="8.2" r="1" fill="#1a1814"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="info-pop">print a slip and it lands in the drawer. stored on this phone only.</div>
+    <div class="page-head">
+      <h1>august</h1>
+      <p class="caption" id="count-line">receipts in the drawer</p>
+    </div>
+
+    <div class="gingham-stage">
+      <div class="drawer-box kraft">
+        <div class="drawer-well sparse" id="drawer"></div>
+      </div>
+    </div>
+
+    <div class="section-label">new receipt</div>
+    <div class="print-bar">
+      <form class="blank-slip" id="form" autocomplete="off">
+        <label>MERCHANT</label>
+        <div class="merchant-row" id="chips"></div>
+        <input id="merchant" name="merchant" placeholder="or type one" maxlength="28" />
+
+        <label>AMOUNT</label>
+        <input class="amount-input" id="amount" name="amount" inputmode="decimal" placeholder="₹0.00" />
+
+        <label>CATEGORY</label>
+        <div class="cats" id="cats"></div>
+
+        <button class="print-btn" type="submit">print into the drawer</button>
+      </form>
+    </div>
+  </main>
+  <script src="app.js"></script>
+  <script>
+    const KEY = "ava-drop-v1";
+    const { RECEIPTS, MERCHANTS, CATEGORIES, miniHTML, HEART, CLIP, SEAL,
+            money, showSheet, wireInfo, toast } = AVA;
+
+    const seed = RECEIPTS.filter((r) =>
+      ["ottimo", "uber", "chipotle", "ikea"].includes(r.id)
+    ).map((r, i) => ({
+      ...r,
+      layout: [
+        { top: "10%", left: "8%", rot: -8 },
+        { top: "18%", left: "48%", rot: 11 },
+        { top: "46%", left: "14%", rot: 5 },
+        { top: "50%", left: "58%", rot: -12 },
+      ][i],
+    }));
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return seed;
+    }
+    function save(list) {
+      localStorage.setItem(KEY, JSON.stringify(list));
+    }
+
+    let items = load();
+    const drawer = document.getElementById("drawer");
+    const countLine = document.getElementById("count-line");
+
+    function layoutFor(i) {
+      if (items[i] && items[i].layout) return items[i].layout;
+      const col = i % 3;
+      const row = Math.floor(i / 3);
+      const rot = ((i * 17) % 21) - 10;
+      return {
+        top: 8 + row * 28 + (i % 2) * 4 + "%",
+        left: 6 + col * 30 + (row % 2) * 4 + "%",
+        rot,
+      };
+    }
+
+    function render(animateId) {
+      drawer.innerHTML = "";
+      items.forEach((r, i) => {
+        drawer.insertAdjacentHTML("beforeend", miniHTML(r));
+        const el = drawer.lastElementChild;
+        const pos = layoutFor(i);
+        el.style.top = pos.top;
+        el.style.left = pos.left;
+        el.style.transform = `rotate(${pos.rot}deg)`;
+        el.style.zIndex = String(1 + i);
+        if (r.id === animateId) {
+          el.classList.add("printing");
+          el.addEventListener("animationend", () => {
+            el.classList.remove("printing");
+            el.classList.add("settling");
+            el.style.transform = "rotate(" + pos.rot + "deg)";
+          }, { once: true });
+        }
+      });
+      drawer.insertAdjacentHTML("beforeend", HEART + CLIP + SEAL);
+      const n = items.length;
+      countLine.textContent = n + " receipt" + (n === 1 ? "" : "s") + " in the drawer";
+    }
+
+    drawer.addEventListener("click", (e) => {
+      const card = e.target.closest("[data-id]");
+      if (!card) return;
+      const r = items.find((x) => x.id === card.dataset.id);
+      if (r) showSheet(r);
+    });
+
+    const chips = document.getElementById("chips");
+    MERCHANTS.forEach((m) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = m;
+      b.addEventListener("click", () => {
+        chips.querySelectorAll(".chip").forEach((c) => c.classList.remove("on"));
+        b.classList.add("on");
+        document.getElementById("merchant").value = m;
+      });
+      chips.appendChild(b);
+    });
+
+    const cats = document.getElementById("cats");
+    let cat = "other";
+    CATEGORIES.forEach((c) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "cat-chip kraft" + (c.id === cat ? " on" : "");
+      b.textContent = c.label;
+      b.dataset.id = c.id;
+      b.addEventListener("click", () => {
+        cat = c.id;
+        cats.querySelectorAll(".cat-chip").forEach((x) => x.classList.toggle("on", x.dataset.id === cat));
+      });
+      cats.appendChild(b);
+    });
+
+    document.getElementById("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const merchant = document.getElementById("merchant").value.trim().toUpperCase();
+      let amt = document.getElementById("amount").value.replace(/[₹,\s]/g, "");
+      const amount = Number(amt);
+      if (!merchant) { toast("needs a merchant"); return; }
+      if (!amount || amount <= 0) { toast("needs an amount"); return; }
+      const now = new Date();
+      const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+      const rec = {
+        id: "drop-" + Date.now(),
+        merchant,
+        date: now.getDate() + " " + months[now.getMonth()],
+        time: now.toTimeString().slice(0, 5),
+        amount,
+        category: cat,
+        addr: "ADDED BY HAND",
+        items: [{ name: merchant, price: amount }],
+        layout: {
+          top: 12 + Math.random() * 50 + "%",
+          left: 6 + Math.random() * 58 + "%",
+          rot: Math.round(Math.random() * 24 - 12),
+        },
+      };
+      items.push(rec);
+      save(items);
+      render(rec.id);
+      document.getElementById("merchant").value = "";
+      document.getElementById("amount").value = "";
+      chips.querySelectorAll(".chip").forEach((c) => c.classList.remove("on"));
+      toast("printed");
+    });
+
+    render();
+    wireInfo("print a slip and it lands in the drawer. stored on this phone only.");
+  </script>
+</body>
+</html>
