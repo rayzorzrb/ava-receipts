@@ -143,6 +143,10 @@ img { display: block; max-width: 100%; }
   height: auto;
   display: block;
 }
+.drawer.mini .slip {
+  width: 13%;
+  max-height: 26%;
+}
 
 .section { padding: 22px 20px 0; }
 .section h2 {
