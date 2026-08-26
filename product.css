@@ -77,11 +77,13 @@ img { display: block; max-width: 100%; }
 .well {
   position: absolute;
   inset: 0;
-  clip-path: polygon(20% 30%, 80% 30%, 90% 67%, 10% 67%);
+  overflow: visible;
+  pointer-events: none;
 }
 .slip {
   position: absolute;
-  width: 22%;
+  width: 20%;
+  pointer-events: auto;
   filter: drop-shadow(0 3px 4px rgba(0,0,0,.28));
   transform-origin: center center;
   background: none;

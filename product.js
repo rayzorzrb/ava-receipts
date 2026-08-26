@@ -15,17 +15,17 @@
 
   const SEED = [
     { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", amount: 54.3, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "32%", l: "24%", r: "-14deg", w: "22%" } },
+      pos: { t: "32%", l: "24%", r: "-14deg", w: "21%" } },
     { id: "tj", merchant: "Trader Joe's", date: "11 AUG", amount: 32.15, cat: "groceries", img: "assets/3d/slip-tj.webp",
-      pos: { t: "33%", l: "42%", r: "9deg", w: "21%" } },
+      pos: { t: "33%", l: "42%", r: "9deg", w: "20%" } },
     { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", amount: 6.5, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "31%", l: "58%", r: "-6deg", w: "20%" } },
+      pos: { t: "31%", l: "58%", r: "-6deg", w: "19%" } },
     { id: "wf", merchant: "Whole Foods", date: "03 AUG", amount: 42.16, cat: "groceries", img: "assets/3d/slip-wf.webp",
-      pos: { t: "42%", l: "22%", r: "7deg", w: "23%" } },
+      pos: { t: "42%", l: "22%", r: "7deg", w: "21%" } },
     { id: "uber", merchant: "Uber", date: "15 AUG", amount: 18.4, cat: "rides", img: "assets/3d/slip-uber.webp",
-      pos: { t: "44%", l: "40%", r: "-11deg", w: "21%" } },
+      pos: { t: "44%", l: "40%", r: "-11deg", w: "20%" } },
     { id: "ikea", merchant: "IKEA", date: "22 AUG", amount: 89, cat: "home", img: "assets/3d/slip-ikea.webp",
-      pos: { t: "43%", l: "58%", r: "12deg", w: "20%" } },
+      pos: { t: "43%", l: "58%", r: "12deg", w: "19%" } },
     { id: "chipotle", merchant: "Chipotle", date: "20 AUG", amount: 14.85, cat: "other", img: "assets/3d/slip-ottimo.webp",
       pos: { t: "36%", l: "33%", r: "4deg", w: "19%" } },
     { id: "starbucks", merchant: "Starbucks", date: "08 AUG", amount: 5.75, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
@@ -39,7 +39,7 @@
     { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", amount: 68, cat: "other", img: "assets/3d/slip-wf.webp",
       pos: { t: "48%", l: "64%", r: "8deg", w: "18%" } },
     { id: "yakuza", merchant: "Yakuza", date: "14 AUG", amount: 38.5, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "40%", l: "66%", r: "-12deg", w: "17%" } },
+      pos: { t: "40%", l: "66%", r: "-12deg", w: "18%" } },
   ];
 
   const MINI = [
@@ -89,7 +89,7 @@
           t: (32 + (i % 4) * 6) + "%",
           l: (24 + (i % 3) * 16) + "%",
           r: (i % 2 ? 10 : -12) + "deg",
-          w: "20%",
+          w: "17%",
         };
       }
       el.appendChild(slipEl(copy));
@@ -277,7 +277,7 @@
       amount,
       cat,
       img: SLIP_FOR[merchant] || "assets/3d/slip-ottimo.webp",
-      pos: { t: "40%", l: "38%", r: "5deg", w: "22%" },
+      pos: { t: "40%", l: "38%", r: "5deg", w: "16%" },
     };
     localStorage.setItem(KEY, JSON.stringify(extras().concat([rec])));
     sheet.classList.remove("on");
