@@ -15,37 +15,37 @@
 
   const SEED = [
     { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", amount: 54.3, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "32%", l: "24%", r: "-14deg", w: "21%" } },
+      pos: { t: "30%", l: "26%", r: "-12deg", w: "16%" } },
     { id: "tj", merchant: "Trader Joe's", date: "11 AUG", amount: 32.15, cat: "groceries", img: "assets/3d/slip-tj.webp",
-      pos: { t: "33%", l: "42%", r: "9deg", w: "20%" } },
+      pos: { t: "31%", l: "40%", r: "8deg", w: "15%" } },
     { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", amount: 6.5, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "31%", l: "58%", r: "-6deg", w: "19%" } },
+      pos: { t: "30%", l: "54%", r: "-6deg", w: "15%" } },
     { id: "wf", merchant: "Whole Foods", date: "03 AUG", amount: 42.16, cat: "groceries", img: "assets/3d/slip-wf.webp",
-      pos: { t: "42%", l: "22%", r: "7deg", w: "21%" } },
+      pos: { t: "36%", l: "24%", r: "6deg", w: "16%" } },
     { id: "uber", merchant: "Uber", date: "15 AUG", amount: 18.4, cat: "rides", img: "assets/3d/slip-uber.webp",
-      pos: { t: "44%", l: "40%", r: "-11deg", w: "20%" } },
+      pos: { t: "37%", l: "40%", r: "-10deg", w: "15%" } },
     { id: "ikea", merchant: "IKEA", date: "22 AUG", amount: 89, cat: "home", img: "assets/3d/slip-ikea.webp",
-      pos: { t: "43%", l: "58%", r: "12deg", w: "19%" } },
+      pos: { t: "36%", l: "54%", r: "10deg", w: "15%" } },
     { id: "chipotle", merchant: "Chipotle", date: "20 AUG", amount: 14.85, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "36%", l: "33%", r: "4deg", w: "19%" } },
+      pos: { t: "33%", l: "32%", r: "4deg", w: "15%" } },
     { id: "starbucks", merchant: "Starbucks", date: "08 AUG", amount: 5.75, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "38%", l: "52%", r: "-18deg", w: "18%" } },
+      pos: { t: "34%", l: "48%", r: "-14deg", w: "14%" } },
     { id: "philz", merchant: "Philz", date: "05 AUG", amount: 7.65, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "50%", l: "28%", r: "15deg", w: "19%" } },
+      pos: { t: "41%", l: "30%", r: "12deg", w: "15%" } },
     { id: "amc", merchant: "AMC", date: "16 AUG", amount: 24, cat: "other", img: "assets/3d/slip-uber.webp",
-      pos: { t: "34%", l: "48%", r: "16deg", w: "18%" } },
+      pos: { t: "32%", l: "44%", r: "14deg", w: "14%" } },
     { id: "shell", merchant: "Shell", date: "09 AUG", amount: 45.2, cat: "other", img: "assets/3d/slip-ikea.webp",
-      pos: { t: "52%", l: "48%", r: "-5deg", w: "20%" } },
+      pos: { t: "42%", l: "46%", r: "-5deg", w: "15%" } },
     { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", amount: 68, cat: "other", img: "assets/3d/slip-wf.webp",
-      pos: { t: "48%", l: "64%", r: "8deg", w: "18%" } },
+      pos: { t: "40%", l: "58%", r: "7deg", w: "14%" } },
     { id: "yakuza", merchant: "Yakuza", date: "14 AUG", amount: 38.5, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "40%", l: "66%", r: "-12deg", w: "18%" } },
+      pos: { t: "35%", l: "60%", r: "-10deg", w: "14%" } },
   ];
 
   const MINI = [
-    { t: "34%", l: "28%", r: "-10deg", w: "28%" },
-    { t: "38%", l: "48%", r: "8deg", w: "26%" },
-    { t: "48%", l: "36%", r: "-6deg", w: "24%" },
+    { t: "32%", l: "30%", r: "-8deg", w: "22%" },
+    { t: "36%", l: "46%", r: "7deg", w: "20%" },
+    { t: "40%", l: "36%", r: "-5deg", w: "20%" },
   ];
 
   function extras() {
@@ -145,10 +145,10 @@
       items.map((r, i) =>
         Object.assign({}, r, {
           pos: {
-            t: 34 + (i % 3) * 8 + "%",
-            l: 26 + (i % 2) * 22 + "%",
-            r: (i % 2 ? 9 : -11) + "deg",
-            w: "24%",
+            t: 32 + (i % 3) * 5 + "%",
+            l: 28 + (i % 2) * 16 + "%",
+            r: (i % 2 ? 8 : -10) + "deg",
+            w: "18%",
           },
         })
       )
@@ -277,7 +277,7 @@
       amount,
       cat,
       img: SLIP_FOR[merchant] || "assets/3d/slip-ottimo.webp",
-      pos: { t: "40%", l: "38%", r: "5deg", w: "16%" },
+      pos: { t: "36%", l: "40%", r: "5deg", w: "15%" },
     };
     localStorage.setItem(KEY, JSON.stringify(extras().concat([rec])));
     sheet.classList.remove("on");
