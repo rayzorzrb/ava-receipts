@@ -33,7 +33,7 @@ img { display: block; max-width: 100%; }
   background: var(--bg);
   position: relative;
   padding-top: var(--safe-top);
-  padding-bottom: calc(78px + var(--safe-bot));
+  padding-bottom: calc(118px + var(--safe-bot));
   overflow-x: hidden;
 }
 
