@@ -1,44 +1,51 @@
 (function () {
   const money = (n) => "₹" + Number(n).toFixed(2);
   const KEY = "ava-v3";
+  const TRAY = "assets/3d/his-tray.webp";
   let lastView = "home";
   let cents = 0;
 
   const CATS = [
-    { id: "groceries", label: "Groceries", shot: "assets/3d/box-groc.webp" },
-    { id: "coffee", label: "Coffee", shot: "assets/3d/box-coffee.webp" },
-    { id: "rides", label: "Rides", shot: "assets/3d/box-rides.webp" },
-    { id: "home", label: "Home", shot: "assets/3d/box-home.webp" },
-    { id: "other", label: "August", shot: "assets/3d/oak.webp" },
+    { id: "groceries", label: "Groceries" },
+    { id: "coffee", label: "Coffee" },
+    { id: "rides", label: "Rides" },
+    { id: "home", label: "Home" },
+    { id: "other", label: "August" },
   ];
 
   const SEED = [
     { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", amount: 54.3, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "4%", l: "2%", r: "-16deg", w: "38%" } },
+      pos: { t: "32%", l: "24%", r: "-14deg", w: "22%" } },
     { id: "tj", merchant: "Trader Joe's", date: "11 AUG", amount: 32.15, cat: "groceries", img: "assets/3d/slip-tj.webp",
-      pos: { t: "6%", l: "34%", r: "11deg", w: "36%" } },
+      pos: { t: "33%", l: "42%", r: "9deg", w: "21%" } },
     { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", amount: 6.5, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "2%", l: "62%", r: "-7deg", w: "34%" } },
+      pos: { t: "31%", l: "58%", r: "-6deg", w: "20%" } },
     { id: "wf", merchant: "Whole Foods", date: "03 AUG", amount: 42.16, cat: "groceries", img: "assets/3d/slip-wf.webp",
-      pos: { t: "38%", l: "4%", r: "7deg", w: "37%" } },
+      pos: { t: "42%", l: "22%", r: "7deg", w: "23%" } },
     { id: "uber", merchant: "Uber", date: "15 AUG", amount: 18.4, cat: "rides", img: "assets/3d/slip-uber.webp",
-      pos: { t: "42%", l: "38%", r: "-12deg", w: "35%" } },
+      pos: { t: "44%", l: "40%", r: "-11deg", w: "21%" } },
     { id: "ikea", merchant: "IKEA", date: "22 AUG", amount: 89, cat: "home", img: "assets/3d/slip-ikea.webp",
-      pos: { t: "36%", l: "66%", r: "14deg", w: "32%" } },
+      pos: { t: "43%", l: "58%", r: "12deg", w: "20%" } },
     { id: "chipotle", merchant: "Chipotle", date: "20 AUG", amount: 14.85, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "18%", l: "18%", r: "4deg", w: "33%" } },
+      pos: { t: "36%", l: "33%", r: "4deg", w: "19%" } },
     { id: "starbucks", merchant: "Starbucks", date: "08 AUG", amount: 5.75, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "22%", l: "52%", r: "-20deg", w: "31%" } },
+      pos: { t: "38%", l: "52%", r: "-18deg", w: "18%" } },
     { id: "philz", merchant: "Philz", date: "05 AUG", amount: 7.65, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
-      pos: { t: "58%", l: "18%", r: "16deg", w: "30%" } },
+      pos: { t: "50%", l: "28%", r: "15deg", w: "19%" } },
     { id: "amc", merchant: "AMC", date: "16 AUG", amount: 24, cat: "other", img: "assets/3d/slip-uber.webp",
-      pos: { t: "8%", l: "48%", r: "18deg", w: "29%" } },
+      pos: { t: "34%", l: "48%", r: "16deg", w: "18%" } },
     { id: "shell", merchant: "Shell", date: "09 AUG", amount: 45.2, cat: "other", img: "assets/3d/slip-ikea.webp",
-      pos: { t: "62%", l: "52%", r: "-6deg", w: "31%" } },
+      pos: { t: "52%", l: "48%", r: "-5deg", w: "20%" } },
     { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", amount: 68, cat: "other", img: "assets/3d/slip-wf.webp",
-      pos: { t: "48%", l: "70%", r: "8deg", w: "28%" } },
+      pos: { t: "48%", l: "64%", r: "8deg", w: "18%" } },
     { id: "yakuza", merchant: "Yakuza", date: "14 AUG", amount: 38.5, cat: "other", img: "assets/3d/slip-ottimo.webp",
-      pos: { t: "28%", l: "72%", r: "-14deg", w: "26%" } },
+      pos: { t: "40%", l: "66%", r: "-12deg", w: "17%" } },
+  ];
+
+  const MINI = [
+    { t: "34%", l: "28%", r: "-10deg", w: "28%" },
+    { t: "38%", l: "48%", r: "8deg", w: "26%" },
+    { t: "48%", l: "36%", r: "-6deg", w: "24%" },
   ];
 
   function extras() {
@@ -50,12 +57,12 @@
   function catOf(id) { return CATS.find((c) => c.id === id); }
   function catTotal(id) { return byCat(id).reduce((s, r) => s + r.amount, 0); }
 
-  function slipEl(r, loose) {
+  function slipEl(r) {
     const b = document.createElement("button");
     b.className = "slip";
     b.type = "button";
     b.dataset.id = r.id;
-    if (r.pos && !loose) {
+    if (r.pos) {
       b.style.top = r.pos.t;
       b.style.left = r.pos.l;
       b.style.width = r.pos.w;
@@ -66,23 +73,51 @@
     img.alt = r.merchant;
     img.draggable = false;
     b.appendChild(img);
-    b.addEventListener("click", () => openDetail(r.id));
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openDetail(r.id);
+    });
     return b;
   }
 
   function fillWell(el, receipts) {
     el.innerHTML = "";
     receipts.forEach((r, i) => {
-      if (!r.pos) {
-        r.pos = {
-          t: (6 + (i % 4) * 20) + "%",
-          l: (4 + (i % 3) * 30) + "%",
-          r: (i % 2 ? 11 : -13) + "deg",
-          w: "34%",
+      const copy = Object.assign({}, r);
+      if (!copy.pos) {
+        copy.pos = {
+          t: (32 + (i % 4) * 6) + "%",
+          l: (24 + (i % 3) * 16) + "%",
+          r: (i % 2 ? 10 : -12) + "deg",
+          w: "20%",
         };
       }
-      el.appendChild(slipEl(r));
+      el.appendChild(slipEl(copy));
     });
+  }
+
+  function miniTile(c) {
+    const items = byCat(c.id);
+    const btn = document.createElement("button");
+    btn.className = "box-tile";
+    btn.type = "button";
+    btn.dataset.cat = c.id;
+    btn.innerHTML =
+      '<div class="drawer mini">' +
+        '<img class="oak" src="' + TRAY + '" width="900" height="759" alt="">' +
+        '<div class="well"></div>' +
+      "</div>" +
+      '<div class="cap">' + c.label + "</div>" +
+      '<div class="meta">' + money(catTotal(c.id)) + " ×" + items.length + "</div>";
+    const well = btn.querySelector(".well");
+    items.slice(0, 3).forEach((r, i) => {
+      well.appendChild(slipEl(Object.assign({}, r, { pos: MINI[i] })));
+    });
+    btn.addEventListener("click", (e) => {
+      if (e.target.closest(".slip")) return;
+      openCat(c.id);
+    });
+    return btn;
   }
 
   function renderHome() {
@@ -90,18 +125,8 @@
     const n = all().length;
     document.getElementById("count").textContent = n + " receipt" + (n === 1 ? "" : "s") + " in the drawer";
     const grid = document.getElementById("boxes");
-    const shown = CATS.filter((c) => c.id !== "other");
-    grid.innerHTML = shown.map((c) => {
-      const items = byCat(c.id);
-      return `<button class="box-tile" type="button" data-cat="${c.id}">
-        <div class="shot"><img src="${c.shot}" alt="${c.label}" width="800" height="533"></div>
-        <div class="cap">${c.label}</div>
-        <div class="meta">${money(catTotal(c.id))} ×${items.length}</div>
-      </button>`;
-    }).join("");
-    grid.querySelectorAll("[data-cat]").forEach((el) => {
-      el.onclick = () => openCat(el.dataset.cat);
-    });
+    grid.innerHTML = "";
+    CATS.filter((c) => c.id !== "other").forEach((c) => grid.appendChild(miniTile(c)));
   }
 
   function openCat(id) {
@@ -110,18 +135,24 @@
     lastView = "cat";
     show("cat");
     document.getElementById("cat-title").textContent = c.label.toLowerCase();
-    document.getElementById("cat-sub").textContent = money(catTotal(id)) + " · " + items.length + " receipt" + (items.length === 1 ? "" : "s");
-    document.getElementById("cat-shot").src = "assets/3d/oak.webp";
-    fillWell(document.getElementById("cat-well"), items.map((r, i) => ({
-      ...r,
-      pos: {
-        t: (8 + (i % 3) * 22) + "%",
-        l: (8 + (i % 2) * 36) + "%",
-        r: (i % 2 ? 9 : -11) + "deg",
-        w: "42%",
-      },
-    })));
-    document.getElementById("cat-slips").innerHTML = "";
+    document.getElementById("cat-sub").textContent =
+      money(catTotal(id)) + " · " + items.length + " receipt" + (items.length === 1 ? "" : "s");
+    document.getElementById("cat-shot").src = TRAY;
+    document.querySelector("#view-cat .drawer").style.display = "";
+    document.getElementById("cat-slips").style.display = "none";
+    fillWell(
+      document.getElementById("cat-well"),
+      items.map((r, i) =>
+        Object.assign({}, r, {
+          pos: {
+            t: 34 + (i % 3) * 8 + "%",
+            l: 26 + (i % 2) * 22 + "%",
+            r: (i % 2 ? 9 : -11) + "deg",
+            w: "24%",
+          },
+        })
+      )
+    );
   }
 
   function openBoxes() {
@@ -129,23 +160,12 @@
     show("cat");
     document.getElementById("cat-title").textContent = "the boxes";
     document.getElementById("cat-sub").textContent = "four piles, same oak";
-    document.getElementById("cat-shot").src = "assets/3d/oak.webp";
-    document.getElementById("cat-well").innerHTML = "";
+    document.querySelector("#view-cat .drawer").style.display = "none";
     const row = document.getElementById("cat-slips");
+    row.style.display = "grid";
+    row.className = "boxes slips-row";
     row.innerHTML = "";
-    const grid = document.createElement("div");
-    grid.className = "boxes";
-    grid.style.width = "100%";
-    grid.innerHTML = CATS.filter((c) => c.id !== "other").map((c) => `
-      <button class="box-tile" type="button" data-cat="${c.id}">
-        <div class="shot"><img src="${c.shot}" alt="${c.label}"></div>
-        <div class="cap">${c.label}</div>
-        <div class="meta">${money(catTotal(c.id))} ×${byCat(c.id).length}</div>
-      </button>`).join("");
-    row.appendChild(grid);
-    grid.querySelectorAll("[data-cat]").forEach((el) => {
-      el.onclick = () => openCat(el.dataset.cat);
-    });
+    CATS.filter((c) => c.id !== "other").forEach((c) => row.appendChild(miniTile(c)));
   }
 
   function openDetail(id) {
@@ -160,11 +180,9 @@
 
   function show(name) {
     document.querySelectorAll(".view").forEach((v) => v.classList.toggle("on", v.id === "view-" + name));
-    document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.dataset.view === name));
-    if (name === "home") document.querySelector('.tab[data-view="home"]')?.classList.add("on");
-    if (name === "cat" && document.getElementById("cat-title").textContent === "the boxes") {
-      document.querySelector('.tab[data-view="cat"]')?.classList.add("on");
-    }
+    document.querySelectorAll(".tab").forEach((t) => t.classList.remove("on"));
+    if (name === "home") document.getElementById("home-tab").classList.add("on");
+    if (name === "cat") document.getElementById("boxes-tab").classList.add("on");
   }
 
   function toast(msg) {
@@ -179,13 +197,27 @@
   }
 
   document.getElementById("boxes-tab").onclick = openBoxes;
-  document.getElementById("home-tab").onclick = () => { lastView = "home"; renderHome(); show("home"); };
-  document.getElementById("back-home").onclick = () => { lastView = "home"; renderHome(); show("home"); };
+  document.getElementById("home-tab").onclick = () => {
+    lastView = "home";
+    renderHome();
+    show("home");
+  };
+  document.getElementById("back-home").onclick = () => {
+    lastView = "home";
+    renderHome();
+    show("home");
+  };
   document.getElementById("detail-back").onclick = () => {
     if (lastView === "cat") show("cat");
-    else { renderHome(); show("home"); }
+    else {
+      renderHome();
+      show("home");
+    }
   };
-  document.getElementById("detail-done").onclick = () => { renderHome(); show("home"); };
+  document.getElementById("detail-done").onclick = () => {
+    renderHome();
+    show("home");
+  };
 
   const sheet = document.getElementById("sheet");
   document.getElementById("new-tab").onclick = () => {
@@ -216,11 +248,9 @@
   document.getElementById("keys").onclick = (e) => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.k === "del") {
-      cents = Math.floor(cents / 10);
-    } else if (b.textContent === ".") {
-      return;
-    } else {
+    if (b.dataset.k === "del") cents = Math.floor(cents / 10);
+    else if (b.textContent === ".") return;
+    else {
       const d = Number(b.textContent);
       if (cents < 1000000) cents = cents * 10 + d;
     }
@@ -242,9 +272,12 @@
     const cat = sheet.dataset.cat || "other";
     const rec = {
       id: "n" + Date.now(),
-      merchant, date: "26 AUG", amount, cat,
+      merchant,
+      date: "26 AUG",
+      amount,
+      cat,
       img: SLIP_FOR[merchant] || "assets/3d/slip-ottimo.webp",
-      pos: { t: "24%", l: "26%", r: "5deg", w: "36%" },
+      pos: { t: "40%", l: "38%", r: "5deg", w: "22%" },
     };
     localStorage.setItem(KEY, JSON.stringify(extras().concat([rec])));
     sheet.classList.remove("on");

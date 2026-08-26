@@ -4,21 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#F7F7F5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ava" />
   <title>ava</title>
   <link rel="stylesheet" href="product.css" />
-  <link rel="preload" as="image" href="assets/3d/oak.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/3d/his-tray.webp" type="image/webp">
 </head>
 <body>
   <main class="phone">
-    <div class="statusbar" aria-hidden="true">
-      <div>9:41</div>
-      <div class="sb-end">
-        <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7.2" width="3" height="4.8" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.6" width="3" height="9.4" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1.4 7.4 A8.4 8.4 0 0 1 14.6 7.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.1 9.2 A4.8 4.8 0 0 1 11.9 9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="1.15" fill="currentColor"/></svg>
-        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="21" height="10.8" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.6" width="1.6" height="4.8" rx="0.6" fill="currentColor"/><rect x="2" y="2" width="16.2" height="8" rx="1.4" fill="currentColor"/></svg>
-      </div>
-    </div>
-
     <section id="view-home" class="view on">
       <div class="topbar">
         <div class="mark">ava</div>
@@ -32,7 +27,7 @@
         <p id="count">13 receipts in the drawer</p>
       </div>
       <div class="drawer">
-        <img class="oak" src="assets/3d/oak.webp" width="800" height="533" alt="August drawer">
+        <img class="oak" src="assets/3d/his-tray.webp" width="900" height="759" alt="August drawer">
         <div class="well" id="well"></div>
       </div>
       <div class="section">
@@ -48,7 +43,7 @@
         <p id="cat-sub"></p>
       </div>
       <div class="drawer">
-        <img class="oak" id="cat-shot" src="assets/3d/oak.webp" width="800" height="533" alt="">
+        <img class="oak" id="cat-shot" src="assets/3d/his-tray.webp" width="900" height="759" alt="">
         <div class="well" id="cat-well"></div>
       </div>
       <div class="slips-row" id="cat-slips"></div>
@@ -109,10 +104,10 @@
       <div class="field">
         <label>Which box</label>
         <div class="pick-grid" id="pick">
-          <button type="button" data-cat="groceries"><img src="assets/3d/box-groc.webp" alt="Groceries"></button>
-          <button type="button" data-cat="coffee"><img src="assets/3d/box-coffee.webp" alt="Coffee"></button>
-          <button type="button" data-cat="rides"><img src="assets/3d/box-rides.webp" alt="Rides"></button>
-          <button type="button" data-cat="home"><img src="assets/3d/box-home.webp" alt="Home"></button>
+          <button type="button" data-cat="groceries"><img src="assets/3d/his-tray.webp" alt="Groceries"></button>
+          <button type="button" data-cat="coffee"><img src="assets/3d/his-tray.webp" alt="Coffee"></button>
+          <button type="button" data-cat="rides"><img src="assets/3d/his-tray.webp" alt="Rides"></button>
+          <button type="button" data-cat="home"><img src="assets/3d/his-tray.webp" alt="Home"></button>
         </div>
       </div>
       <button class="save" id="save" type="button">Print into the drawer</button>
