@@ -125,8 +125,7 @@ img { display: block; max-width: 100%; }
 }
 .slip {
   position: absolute;
-  width: 14%;
-  max-height: 36%;
+  width: 20%;
   pointer-events: auto;
   min-height: 0 !important;
   height: auto;
@@ -144,8 +143,7 @@ img { display: block; max-width: 100%; }
   display: block;
 }
 .drawer.mini .slip {
-  width: 13%;
-  max-height: 26%;
+  width: 26%;
 }
 
 .section { padding: 22px 20px 0; }
