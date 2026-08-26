@@ -1,4 +1,4 @@
-/* ava — product engine. Same app, three homes. */
+/* ava — product engine. Same app, three homes. Items are thermal slips. */
 (function () {
   const HOME = document.body.getAttribute("data-home");
   if (!HOME) return;
@@ -10,13 +10,14 @@
     minimumFractionDigits: 2,
   });
 
+  const TRAY = { src: "assets/3d/box-tray.webp", w: 800, h: 541 };
   const CATS = [
-    { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.png" },
-    { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.png" },
-    { id: "rides", label: "Rides", img: "assets/3d/box-rides.png" },
-    { id: "home", label: "Home", img: "assets/3d/box-home.png" },
+    { id: "groceries", label: "Groceries", img: "assets/3d/box-groceries.webp", w: 800, h: 735 },
+    { id: "coffee", label: "Coffee", img: "assets/3d/box-coffee.webp", w: 800, h: 748 },
+    { id: "rides", label: "Rides", img: "assets/3d/box-rides.webp", w: 800, h: 720 },
+    { id: "home", label: "Home", img: "assets/3d/box-home.webp", w: 800, h: 726 },
   ];
-  const CAT_OTHER = { id: "other", label: "Other", img: "assets/3d/box-mailer.png" };
+  const CAT_OTHER = { id: "other", label: "Other", img: null };
 
   const MERCHANTS = [
     "Ottimo Pizza",
@@ -36,34 +37,82 @@
 
   const SEED = [
     { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", time: "19:42", amount: 54.3, category: "other",
+      addr: "2148 CHESTNUT ST\nSAN FRANCISCO, CA",
       items: [{ name: "Margherita", price: 18 }, { name: "Diavola", price: 22.5 }, { name: "Garlic knots", price: 8 }, { name: "Tax", price: 5.8 }] },
     { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", time: "08:11", amount: 6.5, category: "coffee",
+      addr: "315 LINDEN ST\nSAN FRANCISCO, CA",
       items: [{ name: "New Orleans iced", price: 6.5 }] },
     { id: "uber", merchant: "Uber", date: "15 AUG", time: "22:04", amount: 18.4, category: "rides",
+      addr: "TRIP · SF",
       items: [{ name: "Mission → North Beach", price: 16 }, { name: "Booking fee", price: 2.4 }] },
     { id: "chipotle", merchant: "Chipotle", date: "20 AUG", time: "12:36", amount: 14.85, category: "other",
+      addr: "211 SUTTER ST\nSAN FRANCISCO, CA",
       items: [{ name: "Chicken bowl", price: 12.5 }, { name: "Tax", price: 2.35 }] },
     { id: "yakuza", merchant: "Yakuza", date: "14 AUG", time: "20:18", amount: 38.5, category: "other",
+      addr: "FILLMORE ST\nSAN FRANCISCO, CA",
       items: [{ name: "Ramen", price: 18 }, { name: "Gyoza", price: 9.5 }, { name: "Highball", price: 8 }, { name: "Tax", price: 3 }] },
     { id: "starbucks", merchant: "Starbucks", date: "08 AUG", time: "07:52", amount: 5.75, category: "coffee",
+      addr: "201 POWELL ST\nSAN FRANCISCO, CA",
       items: [{ name: "Iced Americano", price: 5.75 }] },
     { id: "wholefoods", merchant: "Whole Foods", date: "03 AUG", time: "11:07", amount: 42.16, category: "groceries",
+      addr: "1765 CALIFORNIA ST\nSAN FRANCISCO, CA",
       items: [{ name: "Heirloom tomatoes", price: 6.49 }, { name: "Sourdough", price: 5.99 }, { name: "Oat milk", price: 4.79 }, { name: "Mixed greens", price: 3.99 }, { name: "Pasta", price: 4.49 }, { name: "Olive oil", price: 12.99 }, { name: "Tax", price: 3.42 }] },
     { id: "amc", merchant: "AMC", date: "16 AUG", time: "16:40", amount: 24.0, category: "other",
+      addr: "METREON\nSAN FRANCISCO, CA",
       items: [{ name: "Ticket", price: 16 }, { name: "Popcorn", price: 8 }] },
     { id: "shell", merchant: "Shell", date: "09 AUG", time: "17:21", amount: 45.2, category: "other",
+      addr: "VAN NESS AVE\nSAN FRANCISCO, CA",
       items: [{ name: "Regular  12.4 gal", price: 45.2 }] },
     { id: "ikea", merchant: "IKEA", date: "22 AUG", time: "14:03", amount: 89.0, category: "home",
+      addr: "EMERYVILLE, CA",
       items: [{ name: "Lack table", price: 49 }, { name: "Billy extras", price: 32 }, { name: "Hot dog", price: 8 }] },
     { id: "philz", merchant: "Philz", date: "05 AUG", time: "09:14", amount: 7.65, category: "coffee",
+      addr: "HAIGHT ST\nSAN FRANCISCO, CA",
       items: [{ name: "Tesora  large", price: 7.65 }] },
     { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", time: "19:05", amount: 68.0, category: "other",
+      addr: "SAUSALITO, CA",
       items: [{ name: "Omakase lunch", price: 58 }, { name: "Green tea", price: 4 }, { name: "Tax", price: 6 }] },
     { id: "traderjoes", merchant: "Trader Joe's", date: "11 AUG", time: "18:28", amount: 32.15, category: "groceries",
+      addr: "MASONIC AVE\nSAN FRANCISCO, CA",
       items: [{ name: "Mandarins", price: 3.99 }, { name: "Frozen gyoza", price: 4.49 }, { name: "Everything bagel", price: 2.29 }, { name: "Dark chocolate", price: 2.99 }, { name: "Flowers", price: 7.99 }, { name: "Sparkling water", price: 3.49 }, { name: "Tax", price: 6.91 }] },
   ];
 
-  const CHEV = `<svg class="chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1.5 1.5 L6.5 7 L1.5 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const TRAY_LAYOUT = [
+    { top: "6%", left: "4%", rot: -11 },
+    { top: "10%", left: "38%", rot: 8 },
+    { top: "4%", left: "66%", rot: -5 },
+    { top: "42%", left: "8%", rot: 7 },
+    { top: "48%", left: "40%", rot: -12 },
+    { top: "40%", left: "68%", rot: 5 },
+  ];
+
+  const DRAWER_LAYOUT = [
+    { top: "4%", left: "4%", rot: -11 },
+    { top: "6%", left: "34%", rot: 7 },
+    { top: "3%", left: "64%", rot: -5 },
+    { top: "28%", left: "2%", rot: 9 },
+    { top: "32%", left: "30%", rot: -14 },
+    { top: "26%", left: "58%", rot: 5 },
+    { top: "30%", left: "76%", rot: -8 },
+    { top: "54%", left: "6%", rot: 4 },
+    { top: "58%", left: "36%", rot: -7 },
+    { top: "52%", left: "64%", rot: 12 },
+    { top: "76%", left: "16%", rot: -3 },
+    { top: "74%", left: "46%", rot: 8 },
+    { top: "78%", left: "70%", rot: -10 },
+  ];
+
+  const CAT_LAYOUT = [
+    { top: "8%", left: "8%", rot: -8 },
+    { top: "6%", left: "40%", rot: 6 },
+    { top: "12%", left: "66%", rot: -4 },
+    { top: "46%", left: "10%", rot: 9 },
+    { top: "42%", left: "42%", rot: -11 },
+    { top: "50%", left: "68%", rot: 5 },
+    { top: "72%", left: "22%", rot: -6 },
+    { top: "70%", left: "52%", rot: 8 },
+  ];
+
   const BACK_CHEV = `<svg width="12" height="20" viewBox="0 0 12 20" fill="none" aria-hidden="true"><path d="M10 2L2 10l8 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const ICON_HOME = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hidden="true"><path d="M4.2 11.6 L12.5 4.4 L20.8 11.6 V20.2 a1.8 1.8 0 0 1-1.8 1.8 h-4.1 v-6.2 h-4.8 v6.2 H6 a1.8 1.8 0 0 1-1.8-1.8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
   const ICON_BOXES = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" aria-hidden="true"><rect x="3.4" y="3.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.4" y="3.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="3.4" y="13.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.4" y="13.4" width="8.2" height="8.2" rx="1.6" stroke="currentColor" stroke-width="1.7"/></svg>`;
@@ -112,6 +161,92 @@
   function countWord(n) {
     return n + " receipt" + (n === 1 ? "" : "s");
   }
+  function up(s) {
+    return String(s || "").toUpperCase();
+  }
+
+  function imgHTML(src, w, h, alt, eager) {
+    const wh = w && h ? ` width="${w}" height="${h}" style="aspect-ratio:${w}/${h}"` : "";
+    const load = eager
+      ? ` fetchpriority="high" decoding="async"`
+      : ` loading="lazy" decoding="async"`;
+    return `<img src="${src}" alt="${esc(alt || "")}"${wh}${load}>`;
+  }
+  function catImg(c, alt, eager) {
+    if (!c || !c.img) return "";
+    return imgHTML(c.img, c.w, c.h, alt || c.label, eager);
+  }
+  function trayImg(alt, eager) {
+    return imgHTML(TRAY.src, TRAY.w, TRAY.h, alt || "August tray", eager);
+  }
+
+  function barcodeSVG(seed, h) {
+    h = h || 24;
+    let x = 0;
+    let bars = "";
+    const s = String(seed) + "AVA" + String(seed).length;
+    for (let i = 0; i < 42; i++) {
+      const code = s.charCodeAt(i % s.length) + i * 7;
+      const w = 1 + (code % 3);
+      if (i % 2 === 0) {
+        bars += `<rect x="${x}" y="0" width="${w}" height="${h}" fill="#1a1814"/>`;
+      }
+      x += w;
+    }
+    bars += `<rect x="0" y="0" width="2" height="${h}" fill="#1a1814"/>`;
+    bars += `<rect x="${x - 2}" y="0" width="2" height="${h}" fill="#1a1814"/>`;
+    return `<svg viewBox="0 0 ${x} ${h}" preserveAspectRatio="none" aria-hidden="true">${bars}</svg>`;
+  }
+
+  function slipBody(r, compact) {
+    return `<div class="m">${esc(up(r.merchant))}</div>
+      <div class="d">${esc(r.date)}</div>
+      <div class="t">TOTAL ${money(r.amount)}</div>
+      <div class="barcode">${barcodeSVG(r.merchant + r.amount, compact ? 16 : 22)}</div>`;
+  }
+
+  function slipMini(r, pos, extraClass) {
+    const style = pos
+      ? `top:${pos.top};left:${pos.left};transform:rotate(${pos.rot}deg);z-index:${pos.z || 1}`
+      : "";
+    return `<article class="slip slip-mini ${extraClass || ""}" data-id="${esc(r.id)}" tabindex="0" role="button" style="${style}" aria-label="${esc(r.merchant)}, ${money(r.amount)}">
+      ${slipBody(r, true)}
+    </article>`;
+  }
+
+  function slipCard(r, i) {
+    const rots = [-2.6, 1.8, -1.4, 2.4, -3.1, 1.2, 2.1, -1.8, 0.8, -2.2];
+    const rot = rots[i % rots.length];
+    return `<button class="slip slip-card" type="button" data-id="${esc(r.id)}" style="transform:rotate(${rot}deg)" aria-label="${esc(r.merchant)}, ${money(r.amount)}">
+      ${slipBody(r, false)}
+    </button>`;
+  }
+
+  function slipFull(r) {
+    const lines = (r.items && r.items.length ? r.items : [{ name: r.merchant, price: r.amount }])
+      .map((it) => `<div class="slip-line"><span>${esc(up(it.name))}</span><span>${Number(it.price).toFixed(2)}</span></div>`)
+      .join("");
+    const addr = (r.addr || "").split("\n").filter(Boolean).map(esc).join("<br>");
+    return `<article class="slip slip-full" aria-label="${esc(r.merchant)} receipt">
+      <div class="store">${esc(up(r.merchant))}</div>
+      ${addr ? `<div class="addr">${addr}</div>` : ""}
+      <div class="when">${esc(prettyDate(r.date))} 2026${r.time ? "  ·  " + esc(r.time) : ""}</div>
+      <hr class="rule" />
+      ${lines}
+      <hr class="rule" />
+      <div class="total-row"><span>TOTAL</span><span>${money(r.amount)}</span></div>
+      <div class="barcode tall">${barcodeSVG(r.merchant + r.date + r.amount, 40)}</div>
+      <div class="thanks">THANK YOU</div>
+    </article>`;
+  }
+
+  function scatterHTML(list, layout, extraClass) {
+    const loc = layout || DRAWER_LAYOUT;
+    return sorted(list).map((r, i) => {
+      const pos = Object.assign({ z: 1 + i }, loc[i] || loc[i % loc.length]);
+      return slipMini(r, pos, extraClass);
+    }).join("");
+  }
 
   function loadExtras() {
     try {
@@ -138,6 +273,8 @@
     form: { merchant: "", amount: "", cat: null },
     sheet: false,
     prefCat: null,
+    filterCat: null,
+    lastSaved: null,
   };
 
   function backLabel() {
@@ -195,50 +332,37 @@
     </div>`;
   }
 
-  function rowHTML(r, opts) {
-    opts = opts || {};
-    const thumb = opts.thumb
-      ? `<img class="row-thumb" src="assets/3d/obj-receipt.png" alt="">`
-      : "";
-    return `<button class="row ${opts.thumb ? "has-thumb" : ""}" type="button" data-id="${esc(r.id)}">
-      ${thumb}
-      <div class="row-body">
-        <div class="row-title">${esc(r.merchant)}</div>
-        <div class="row-sub">${esc(prettyDate(r.date))}</div>
-      </div>
-      <div class="row-amt">${money(r.amount)}</div>
-      ${CHEV}
-    </button>`;
-  }
-
-  function groupHTML(list, opts) {
-    if (!list.length) return "";
-    return `<div class="group">${sorted(list).map((r) => rowHTML(r, opts)).join("")}</div>`;
-  }
-
   function homeStudio() {
     const list = allReceipts();
     const total = sum(list);
     const stats = catStats(list);
-    const recent = sorted(list).slice(0, 3);
+    const recent = sorted(list).slice(0, 4);
+    const onTray = sorted(list).slice(0, 6);
     return `${navHTML({ title: "ava" })}
       <div class="large-title">
         <h1>August</h1>
         <p class="sub"><span class="total">${money(total)}</span> · ${countWord(list.length)}</p>
       </div>
-      <button class="hero-tray press" type="button" data-act="all" aria-label="All August receipts">
-        <img src="assets/3d/box-tray.png" alt="August tray">
-      </button>
+      <div class="tray-stage">
+        <button class="tray-hit press" type="button" data-act="all" aria-label="All August receipts">
+          ${trayImg("August tray", true)}
+        </button>
+        <div class="tray-slips">
+          ${scatterHTML(onTray, TRAY_LAYOUT)}
+        </div>
+      </div>
       <div class="cat-grid">
-        ${stats.map((c) => `
+        ${stats.map((c, i) => `
           <button class="cat-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            <img src="${c.img}" alt="${esc(c.label)}">
+            ${catImg(c, c.label, i < 2)}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
           </button>`).join("")}
       </div>
       <div class="section-head">Recent</div>
-      ${groupHTML(recent)}`;
+      <div class="recent-slips">
+        ${recent.map((r, i) => slipMini(r, null, "recent n" + (i + 1))).join("")}
+      </div>`;
   }
 
   function homeCells() {
@@ -253,7 +377,7 @@
       <div class="cells-grid">
         ${stats.map((c) => `
           <button class="cells-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            <img src="${c.img}" alt="${esc(c.label)}">
+            ${catImg(c, c.label, true)}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
           </button>`).join("")}
@@ -264,29 +388,31 @@
   function homeTable() {
     const list = allReceipts();
     const stats = catStats(list);
-    const latest = sorted(list)[0];
+    const shown = state.filterCat ? inCat(list, state.filterCat) : list;
+    const filterLabel = state.filterCat ? (catById(state.filterCat) || {}).label : null;
     return `${navHTML({ title: "ava" })}
       <div class="large-title">
         <h1>August</h1>
-        <p class="sub"><span class="total">${money(sum(list))}</span> · ${countWord(list.length)}</p>
+        <p class="sub"><span class="total">${money(sum(shown))}</span> · ${countWord(shown.length)}${filterLabel ? " · " + esc(filterLabel) : ""}</p>
       </div>
-      <div class="wallet-hero">
-        <button class="wallet-tray press" type="button" data-act="all" aria-label="All receipts">
-          <img src="assets/3d/box-tray.png" alt="Tray">
-        </button>
-        <button class="wallet-slip press" type="button" data-id="${latest ? esc(latest.id) : ""}" aria-label="Latest receipt">
-          <img src="assets/3d/obj-receipt.png" alt="Receipt">
+      <div class="wallet-hero compact">
+        <button class="wallet-tray press" type="button" data-filter="all" aria-label="All receipts">
+          ${trayImg("Tray", true)}
         </button>
       </div>
       <div class="snap-row">
-        ${stats.map((c) => `
-          <button class="snap-card press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}">
-            <img src="${c.img}" alt="${esc(c.label)}">
+        ${stats.map((c, i) => `
+          <button class="snap-card press ${state.filterCat === c.id ? "on" : ""}" type="button" data-filter="${c.id}" aria-label="Filter ${esc(c.label)}" aria-pressed="${state.filterCat === c.id}">
+            ${catImg(c, c.label, i < 2)}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${money(c.total)}</div>
           </button>`).join("")}
       </div>
-      ${groupHTML(list)}`;
+      <div class="wallet-stack">
+        ${shown.length
+          ? sorted(shown).map((r, i) => slipCard(r, i)).join("")
+          : `<div class="empty"><p>Nothing in this box yet.</p></div>`}
+      </div>`;
   }
 
   function homeHTML() {
@@ -303,9 +429,9 @@
         <p class="sub">Where August goes</p>
       </div>
       <div class="boxes-grid">
-        ${stats.map((c) => `
+        ${stats.map((c, i) => `
           <button class="boxes-tile press" type="button" data-cat="${c.id}" aria-label="${esc(c.label)}, ${money(c.total)}">
-            <img src="${c.img}" alt="${esc(c.label)}">
+            ${catImg(c, c.label, i < 2)}
             <div class="cap">${esc(c.label)}</div>
             <div class="meta">${c.count ? money(c.total) : "Empty"}</div>
           </button>`).join("")}
@@ -316,13 +442,15 @@
     const list = allReceipts();
     const items = isAll ? list : inCat(list, catId);
     const cat = isAll
-      ? { id: "all", label: "August", img: "assets/3d/box-tray.png" }
+      ? { id: "all", label: "August", img: TRAY.src, w: TRAY.w, h: TRAY.h }
       : catById(catId);
     const back = backLabel();
     const empty = !items.length;
+    const layout = isAll ? DRAWER_LAYOUT : CAT_LAYOUT;
+    const wellClass = isAll ? "paper-drawer tall" : (items.length > 4 ? "paper-drawer" : "paper-drawer cozy");
     return `${navHTML({ back: back, title: cat.label })}
       <div class="cat-hero">
-        <img src="${cat.img}" alt="${esc(cat.label)}">
+        ${catImg(cat, cat.label, true)}
       </div>
       <div class="cat-heading">
         <h1>${esc(cat.label)}</h1>
@@ -334,49 +462,25 @@
             <p>This box is empty. Add a receipt and it lands here.</p>
             <button class="btn" type="button" data-act="add" data-pref="${esc(catId || "")}">Add Receipt</button>
           </div>`
-        : groupHTML(items, { thumb: true })}`;
+        : `<div class="${wellClass}">${scatterHTML(items, layout)}</div>`}`;
   }
 
   function detailHTML(id) {
     const r = byId(id);
     if (!r) return `<div class="empty"><p>Receipt gone.</p></div>`;
     const cat = catById(r.category);
-    const lines = (r.items && r.items.length ? r.items : [{ name: r.merchant, price: r.amount }])
-      .map((it) => `<div class="row static">
-        <div class="row-body"><div class="row-title">${esc(it.name)}</div></div>
-        <div class="row-amt grey">${Number(it.price).toFixed(2)}</div>
-      </div>`).join("");
     const done = `<button class="nav-action strong" type="button" data-act="back">Done</button>`;
     return `${navHTML({ back: backLabel(), title: "", right: done })}
-      <div class="detail-hero">
-        <img src="assets/3d/obj-receipt.png" alt="Receipt">
+      <div class="detail-paper">
+        ${slipFull(r)}
       </div>
-      <div class="detail-head">
-        <h1>${esc(r.merchant)}</h1>
-        <div class="when">${esc(prettyDate(r.date))}${r.time ? "  ·  " + esc(r.time) : ""}</div>
-        <div class="sum">${money(r.amount)}</div>
-      </div>
-      <div class="section-head">Items</div>
-      <div class="group">
-        ${lines}
-        <div class="row static">
-          <div class="row-body"><div class="row-title" style="font-weight:600">Total</div></div>
-          <div class="row-amt">${money(r.amount)}</div>
-        </div>
-      </div>
-      <div class="section-head">Category</div>
-      <div class="group">
-        ${cat && cat.id !== "other"
-          ? `<button class="row cat-line" type="button" data-cat="${cat.id}">
-              <img src="${cat.img}" alt="">
-              <div class="row-body"><div class="row-title">${esc(cat.label)}</div></div>
-              ${CHEV}
-            </button>`
-          : `<div class="row static cat-line">
-              <img src="${CAT_OTHER.img}" alt="">
-              <div class="row-body"><div class="row-title">Other</div></div>
-            </div>`}
-      </div>`;
+      ${cat && cat.img
+        ? `<div class="section-head">In the box</div>
+           <button class="detail-box press" type="button" data-cat="${cat.id}">
+             ${catImg(cat, cat.label)}
+             <div class="cap">${esc(cat.label)}</div>
+           </button>`
+        : ""}`;
   }
 
   function sheetHTML() {
@@ -412,7 +516,7 @@
             ${CATS.map((c) => `
               <button class="pick-tile press ${f.cat === c.id ? "on" : ""}" type="button" data-pick="${c.id}" aria-label="${esc(c.label)}" aria-pressed="${f.cat === c.id}">
                 <span class="pick-check">${ICON_CHECK}</span>
-                <img src="${c.img}" alt="${esc(c.label)}">
+                ${catImg(c, c.label)}
                 <div class="cap">${esc(c.label)}</div>
               </button>`).join("")}
           </div>
@@ -458,6 +562,7 @@
     stageEl.innerHTML = `<div class="screen root" data-kind="${kind}">${htmlFor({ type: kind })}</div>`;
     bindScreen(stageEl.querySelector(".screen"));
     refreshTabs();
+    markSpawn();
   }
 
   function refreshTabs() {
@@ -504,11 +609,6 @@
     const can = f.merchant.trim() && Number(f.amount) > 0 && f.cat;
     btn.disabled = !can;
     btn.classList.toggle("dim", !can);
-  }
-
-  function topScreen() {
-    const screens = stageEl.querySelectorAll(".screen");
-    return screens[screens.length - 1];
   }
 
   function push(screen) {
@@ -566,7 +666,7 @@
 
   function openAdd(pref) {
     state.prefCat = pref || null;
-    state.form = { merchant: "", amount: "", cat: pref || null };
+    state.form = { merchant: "", amount: "", cat: pref || state.filterCat || null };
     state.sheet = true;
     paintSheet();
   }
@@ -597,8 +697,9 @@
     const extras = loadExtras();
     extras.push(rec);
     saveExtras(extras);
+    state.lastSaved = rec.id;
     closeSheet();
-    toast("Saved to " + (catById(f.cat) || {}).label);
+    toast("Printed into " + (catById(f.cat) || {}).label);
     rebuild();
     requestAnimationFrame(() => {
       const tile = stageEl.querySelector('[data-cat="' + f.cat + '"]');
@@ -606,12 +707,18 @@
         tile.classList.add("settle");
         tile.addEventListener("animationend", () => tile.classList.remove("settle"), { once: true });
       }
-      const slip = stageEl.querySelector(".wallet-slip img, .wallet-receipt");
-      if (slip) {
-        slip.classList.add("spawn");
-        slip.addEventListener("animationend", () => slip.classList.remove("spawn"), { once: true });
-      }
+      markSpawn();
     });
+  }
+
+  function markSpawn() {
+    if (!state.lastSaved) return;
+    const slip = stageEl.querySelector('[data-id="' + state.lastSaved + '"]');
+    if (slip) {
+      slip.classList.add("spawn");
+      slip.addEventListener("animationend", () => slip.classList.remove("spawn"), { once: true });
+    }
+    state.lastSaved = null;
   }
 
   function rebuild() {
@@ -641,6 +748,15 @@
     t._h = setTimeout(() => t.classList.remove("show"), 1400);
   }
 
+  function applyFilter(id) {
+    if (id === "all" || id === state.filterCat) state.filterCat = null;
+    else state.filterCat = id;
+    const root = stageEl.querySelector(".screen.root");
+    if (root && state.stack.length === 1 && state.tab === "home") {
+      root.innerHTML = homeHTML();
+    }
+  }
+
   function bindChrome(el) {
     el.addEventListener("click", (e) => {
       const tab = e.target.closest("[data-tab]");
@@ -656,6 +772,7 @@
         }
         if (id !== state.tab) {
           state.tab = id;
+          if (id !== "home") state.filterCat = null;
           paintRoot();
         }
       }
@@ -671,6 +788,11 @@
         if (a === "all") { openAll(); return; }
         if (a === "add") { openAdd(act.getAttribute("data-pref") || null); return; }
       }
+      const filter = e.target.closest("[data-filter]");
+      if (filter) {
+        applyFilter(filter.getAttribute("data-filter"));
+        return;
+      }
       const cat = e.target.closest("[data-cat]");
       if (cat && cat.getAttribute("data-cat")) {
         openCategory(cat.getAttribute("data-cat"));
@@ -679,6 +801,10 @@
       const row = e.target.closest("[data-id]");
       if (row && row.getAttribute("data-id")) {
         openDetail(row.getAttribute("data-id"));
+        return;
+      }
+      if (e.target.closest(".tray-slips")) {
+        openAll();
       }
     });
   }

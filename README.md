@@ -1,17 +1,17 @@
 # ava
 
-Expense tracking as physical receipts — now a small iOS-like product. Same app, three homes. The 3D boxes are the UI.
+Expense tracking as physical receipts. Same app, three homes. If it is an expense, it is a thermal paper slip. The 3D boxes are category containers.
 
 ## the product
 
-August, dummy data, currency ₹. Home / Boxes / New on every screen.
+August, dummy data, currency ₹. Home / New / Boxes on every screen.
 
 - **Chooser** — [https://rayzorzrb.github.io/ava-receipts/](https://rayzorzrb.github.io/ava-receipts/)
-- **studio** — [studio.html](https://rayzorzrb.github.io/ava-receipts/studio.html) — the month is a tray. Category boxes with live totals. Recent three.
-- **cells** — [cells.html](https://rayzorzrb.github.io/ava-receipts/cells.html) — Airbnb home. Four 3D boxes fill the screen.
-- **table** — [table.html](https://rayzorzrb.github.io/ava-receipts/table.html) — a wallet. The transaction list is first-class.
+- **studio** — [studio.html](https://rayzorzrb.github.io/ava-receipts/studio.html) — the month is a tray of paper. Tap a slip. Category boxes underneath.
+- **cells** — [cells.html](https://rayzorzrb.github.io/ava-receipts/cells.html) — four 3D boxes fill the screen. Open one for that category’s slips.
+- **table** — [table.html](https://rayzorzrb.github.io/ava-receipts/table.html) — a wallet of thermal slips. Compact tray up top, boxes filter the stack.
 
-Tap a box for the category. Tap a row for the receipt. New opens an add sheet; four boxes are the category picker. Saved to `localStorage` (`ava-product-v1`).
+Tap a slip for the full sheet. New prints a receipt into a box. Saved to `localStorage` (`ava-product-v1`).
 
 ## earlier
 

@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#F2F2F7" />
   <title>ava — three homes</title>
   <link rel="stylesheet" href="apple.css" />
+  <link rel="preload" as="image" href="assets/3d/box-tray.webp" type="image/webp">
 </head>
 <body>
   <main class="phone chooser">
@@ -24,44 +25,49 @@
     </div>
     <div class="large-title">
       <h1>ava</h1>
-      <p class="sub">same app, three homes.</p>
+      <p class="sub">same app, three homes. items are receipts.</p>
     </div>
     
 
     <a class="home-pick" href="studio.html">
       <div class="art">
-        <img src="assets/3d/box-tray.png" alt="">
+        <img src="assets/3d/box-tray.webp" width="800" height="541" alt="" fetchpriority="high" decoding="async" style="aspect-ratio:800/541">
       </div>
       <div class="copy">
         <div class="kicker">Home A</div>
         <h2>Studio</h2>
-        <p>The month is a tray. Tap it for every receipt. Category boxes underneath, with live totals.</p>
+        <p>The month is a tray of paper. Tap a slip. Category boxes underneath, with live totals.</p>
       </div>
     </a>
 
     <a class="home-pick" href="cells.html">
       <div class="art quad">
-        <img src="assets/3d/box-groceries.png" alt="">
-        <img src="assets/3d/box-coffee.png" alt="">
-        <img src="assets/3d/box-rides.png" alt="">
-        <img src="assets/3d/box-home.png" alt="">
+        <img src="assets/3d/box-groceries.webp" width="800" height="735" alt="" loading="lazy" decoding="async" style="aspect-ratio:800/735">
+        <img src="assets/3d/box-coffee.webp" width="800" height="748" alt="" loading="lazy" decoding="async" style="aspect-ratio:800/748">
+        <img src="assets/3d/box-rides.webp" width="800" height="720" alt="" loading="lazy" decoding="async" style="aspect-ratio:800/720">
+        <img src="assets/3d/box-home.webp" width="800" height="726" alt="" loading="lazy" decoding="async" style="aspect-ratio:800/726">
       </div>
       <div class="copy">
         <div class="kicker">Home B</div>
         <h2>Cells</h2>
-        <p>Airbnb home. Four boxes fill the screen. Tap a box, you’re in that category.</p>
+        <p>Four boxes fill the screen. Open one — the receipts are paper, not rows.</p>
       </div>
     </a>
 
     <a class="home-pick" href="table.html">
       <div class="art split">
-        <img src="assets/3d/box-tray.png" alt="">
-        <img src="assets/3d/obj-receipt.png" alt="">
+        <img src="assets/3d/box-tray.webp" width="800" height="541" alt="" loading="lazy" decoding="async" style="aspect-ratio:800/541">
+        <article class="slip slip-mini chooser-slip" aria-hidden="true">
+          <div class="m">OTTIMO PIZZA</div>
+          <div class="d">18 AUG</div>
+          <div class="t">TOTAL ₹54.30</div>
+          <div class="barcode-ticks"></div>
+        </article>
       </div>
       <div class="copy">
         <div class="kicker">Home C</div>
         <h2>Table</h2>
-        <p>A wallet. The list is first-class. Compact tray up top, boxes in a snap row.</p>
+        <p>A wallet of thermal slips. Compact tray up top, boxes filter the stack.</p>
       </div>
     </a>
 
