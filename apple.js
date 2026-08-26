@@ -11,6 +11,13 @@
   });
 
   const TRAY = { src: "assets/3d/wood-tray.webp", w: 746, h: 800 };
+  /* Inner floor of wood-tray.webp, % of the image (walls meet the floor). */
+  const FLOOR_QUAD = {
+    tl: [30.0, 35.0],
+    tr: [76.0, 35.0],
+    br: [86.0, 68.5],
+    bl: [26.0, 68.5],
+  };
   const CATS = [
     { id: "groceries", label: "Groceries" },
     { id: "coffee", label: "Coffee" },
@@ -77,28 +84,28 @@
       items: [{ name: "Mandarins", price: 3.99 }, { name: "Frozen gyoza", price: 4.49 }, { name: "Everything bagel", price: 2.29 }, { name: "Dark chocolate", price: 2.99 }, { name: "Flowers", price: 7.99 }, { name: "Sparkling water", price: 3.49 }, { name: "Tax", price: 6.91 }] },
   ];
 
-  /* Fewer, bigger slips on the floor. Extra receipts peek under. rotate is in-plane (Z). */
+  /* Fewer, bigger slips on the warped floor. rotate is a tiny in-plane dump, not a 3D camera. */
   const TRAY_LAYOUT = [
-    { top: "14%", left: "2%", rot: -7 },
-    { top: "24%", left: "28%", rot: 5 },
-    { top: "42%", left: "8%", rot: -4 },
+    { top: "6%", left: "4%", rot: -7 },
+    { top: "18%", left: "22%", rot: 5 },
+    { top: "36%", left: "8%", rot: -4 },
   ];
 
   const COMPACT_LAYOUT = [
-    { top: "16%", left: "4%", rot: -6 },
-    { top: "30%", left: "30%", rot: 5 },
+    { top: "8%", left: "6%", rot: -6 },
+    { top: "24%", left: "24%", rot: 5 },
   ];
 
   const DRAWER_LAYOUT = TRAY_LAYOUT;
 
   const CAT_LAYOUT = [
-    { top: "12%", left: "0%", rot: -6 },
-    { top: "24%", left: "26%", rot: 5 },
+    { top: "4%", left: "2%", rot: -6 },
+    { top: "18%", left: "20%", rot: 5 },
   ];
 
   const CELL_LAYOUT = [
-    { top: "16%", left: "0%", rot: -7 },
-    { top: "32%", left: "22%", rot: 5 },
+    { top: "6%", left: "2%", rot: -7 },
+    { top: "22%", left: "18%", rot: 5 },
   ];
 
   const MINI_LAYOUT = CELL_LAYOUT;
@@ -192,9 +199,80 @@
     const slips = list && list.length ? scatterHTML(list, layout) : "";
     return `<div class="${cls.join(" ")}">
       ${trayImg(opts.alt || "Oak tray", opts.eager !== false)}
-      <div class="tray-well">${slips}</div>
+      <div class="tray-well"><div class="tray-floor">${slips}</div></div>
       ${hit}
     </div>`;
+  }
+
+  function solve8(A, b) {
+    const n = 8;
+    const M = A.map((row, i) => row.concat([b[i]]));
+    for (let i = 0; i < n; i++) {
+      let max = i;
+      for (let r = i + 1; r < n; r++) {
+        if (Math.abs(M[r][i]) > Math.abs(M[max][i])) max = r;
+      }
+      const tmp = M[i];
+      M[i] = M[max];
+      M[max] = tmp;
+      const piv = M[i][i];
+      if (Math.abs(piv) < 1e-12) return null;
+      for (let j = i; j <= n; j++) M[i][j] /= piv;
+      for (let r = 0; r < n; r++) {
+        if (r === i) continue;
+        const f = M[r][i];
+        for (let j = i; j <= n; j++) M[r][j] -= f * M[i][j];
+      }
+    }
+    return M.map((row) => row[n]);
+  }
+
+  function homographyMatrix3d(src, dst) {
+    const A = [];
+    const b = [];
+    for (let i = 0; i < 4; i++) {
+      const x = src[i][0], y = src[i][1];
+      const u = dst[i][0], v = dst[i][1];
+      A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]);
+      b.push(u);
+      A.push([0, 0, 0, x, y, 1, -v * x, -v * y]);
+      b.push(v);
+    }
+    const h = solve8(A, b);
+    if (!h) return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+    return [
+      h[0], h[3], 0, h[6],
+      h[1], h[4], 0, h[7],
+      0, 0, 1, 0,
+      h[2], h[5], 0, 1,
+    ];
+  }
+
+  function applyFloorWarp(el) {
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    if (!w || !h) return;
+    const q = FLOOR_QUAD;
+    const left = Math.min(q.tl[0], q.bl[0]);
+    const top = Math.min(q.tl[1], q.tr[1]);
+    const right = Math.max(q.tr[0], q.br[0]);
+    const bot = Math.max(q.bl[1], q.br[1]);
+    const bw = right - left;
+    const bh = bot - top;
+    const src = [[0, 0], [w, 0], [w, h], [0, h]];
+    const dst = [
+      [(q.tl[0] - left) / bw * w, (q.tl[1] - top) / bh * h],
+      [(q.tr[0] - left) / bw * w, (q.tr[1] - top) / bh * h],
+      [(q.br[0] - left) / bw * w, (q.br[1] - top) / bh * h],
+      [(q.bl[0] - left) / bw * w, (q.bl[1] - top) / bh * h],
+    ];
+    el.style.transformOrigin = "0 0";
+    el.style.transform = "matrix3d(" + homographyMatrix3d(src, dst).join(",") + ")";
+  }
+
+  function warpFloors(root) {
+    const scope = root || document;
+    scope.querySelectorAll(".tray-floor").forEach(applyFloorWarp);
   }
 
   function barcodeSVG(seed, h) {
@@ -293,7 +371,7 @@
     const n = Math.min(items.length, loc.length);
     return items.slice(0, n).map((r, i) => {
       const pos = items.length === 1
-        ? { top: "18%", left: "10%", rot: -4, z: 6 }
+        ? { top: "10%", left: "12%", rot: -4, z: 6 }
         : Object.assign({ z: 8 - i }, loc[i]);
       return slipMini(r, pos, extraClass);
     }).join("");
@@ -602,6 +680,7 @@
     state.stack = [{ type: kind }];
     stageEl.innerHTML = `<div class="screen root" data-kind="${kind}">${htmlFor({ type: kind })}</div>`;
     bindScreen(stageEl.querySelector(".screen"));
+    warpFloors(stageEl);
     refreshTabs();
     markSpawn();
   }
@@ -636,6 +715,7 @@
           refreshSave();
         });
       }
+      warpFloors(sheetWrap);
       requestAnimationFrame(() => {
         const root = sheetWrap.querySelector(".sheet-root");
         if (root) root.classList.add("open");
@@ -659,6 +739,7 @@
     next.innerHTML = htmlFor(screen);
     stageEl.appendChild(next);
     bindScreen(next);
+    warpFloors(next);
     const root = stageEl.querySelector(".screen.root");
     requestAnimationFrame(() => {
       next.classList.add("in");
@@ -775,7 +856,9 @@
       next.innerHTML = htmlFor(s);
       stageEl.appendChild(next);
       bindScreen(next);
+      warpFloors(next);
     });
+    warpFloors(stageEl);
     const root = stageEl.querySelector(".screen.root");
     if (frozen.length > 1 && root) root.classList.add("shift");
   }
@@ -796,6 +879,7 @@
     if (root && state.stack.length === 1 && state.tab === "home") {
       root.innerHTML = homeHTML();
       bindScreen(root);
+      warpFloors(root);
     }
   }
 
@@ -884,6 +968,9 @@
 
   mountChrome();
   paintRoot();
+  if (window.ResizeObserver) {
+    new ResizeObserver(() => warpFloors(rootEl)).observe(rootEl);
+  }
 
   const q = new URLSearchParams(location.search);
   const v = q.get("v");

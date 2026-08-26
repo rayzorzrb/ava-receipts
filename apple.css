@@ -598,32 +598,37 @@ input {
 }
 
 /*
-  Inner floor of wood-tray.webp (746×800):
-  back wall/floor AO ~29% down, front inner rim ~70% (bottom: 30%).
-  Inner walls ~16.5% left / 12% right.
-  The well IS the floor plane: local rectangle, rotateX so the far edge
-  recedes toward the back wall. Paper lives on that plane (rotateZ only).
+  wood-tray.webp is already a 2D photo of a 3D tray (perspective baked in).
+  Inner floor quad, % of the image, where the wood walls meet the floor
+  (PIL luminance crease on 746×800):
+    TL 30.0% 35.0%    TR 76.0% 35.0%
+    BL 26.0% 68.5%    BR 86.0% 68.5%
+  .tray-well is the axis-aligned bbox of that quad, clipped to the trapezoid.
+  .tray-floor is a rectangle warped onto the quad with matrix3d (JS homography).
+  No perspective()/rotateX/preserve-3d — those fight the photo.
 */
 .tray-well {
   position: absolute;
-  left: 16.5%;
-  width: 71%;
-  bottom: 30%;
-  height: 78%;
+  left: 26%;
+  top: 35%;
+  width: 60%;
+  height: 33.5%;
   overflow: hidden;
   pointer-events: none;
   z-index: 2;
-  transform-origin: 50% 100%;
-  transform-style: preserve-3d;
-  /* fallback px, then size-relative so 2×2 and hero match the same camera */
-  transform: perspective(260px) rotateX(58deg) rotateZ(-4deg);
-  transform: perspective(380cqw) rotateX(58deg) rotateZ(-4deg);
+  /* trapezoid in well-local %: TL 6.67% 0, TR 83.33% 0, BR 100% 100, BL 0 100 */
+  clip-path: polygon(6.67% 0%, 83.33% 0%, 100% 100%, 0% 100%);
+}
+.tray-floor {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
 }
 
 .tray-well .slip {
   position: absolute;
   pointer-events: auto;
-  width: 72%;
+  width: 82%;
   padding: 16px 9px 10px;
   font-size: 9px;
   line-height: 1.3;
@@ -650,7 +655,7 @@ input {
 .oak.size-full { width: 92%; margin: 4px auto 12px; }
 .oak.size-hero .tray-well .slip,
 .oak.size-full .tray-well .slip {
-  width: 70%;
+  width: 84%;
   padding: 20px 12px 14px;
   font-size: 10px;
 }
@@ -666,7 +671,7 @@ input {
 /* 2×2 home — 1–2 large readable slips */
 .oak.size-cell { width: 100%; margin: 0 auto 2px; }
 .oak.size-cell .tray-well .slip {
-  width: 80%;
+  width: 86%;
   padding: 16px 8px 10px;
   font-size: 9px;
 }
@@ -677,7 +682,7 @@ input {
 
 .oak.size-mini { width: 100%; margin: 0 auto 2px; }
 .oak.size-mini .tray-well .slip {
-  width: 78%;
+  width: 84%;
   padding: 15px 8px 9px;
   font-size: 8.5px;
 }
@@ -688,7 +693,7 @@ input {
 
 .oak.size-compact { width: 48%; margin: 4px auto 10px; }
 .oak.size-compact .tray-well .slip {
-  width: 62%;
+  width: 78%;
   padding: 14px 8px 8px;
   font-size: 8px;
 }
@@ -699,7 +704,7 @@ input {
 
 .oak.size-pick { width: 100%; margin: 0 auto 2px; }
 .oak.size-pick .tray-well .slip {
-  width: 62%;
+  width: 78%;
   padding: 12px 6px 6px;
   font-size: 6.5px;
 }
