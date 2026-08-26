@@ -14,31 +14,44 @@
   ];
 
   const SEED = [
-    { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", amount: 54.3, cat: "other", img: "assets/3d/slip-ottimo.webp",
+    { id: "ottimo", merchant: "Ottimo Pizza", date: "18 AUG", amount: 54.3, cat: "other",
+      items: [["Margherita", 24], ["Garlic bread", 12], ["Pepsi", 18.3]],
       pos: { t: "31%", l: "28%", r: "-12deg", w: "20%" } },
-    { id: "tj", merchant: "Trader Joe's", date: "11 AUG", amount: 32.15, cat: "groceries", img: "assets/3d/slip-tj.webp",
+    { id: "tj", merchant: "Trader Joe's", date: "11 AUG", amount: 32.15, cat: "groceries",
+      items: [["Bananas", 4.2], ["Oat milk", 6.5], ["Eggs", 21.45]],
       pos: { t: "31%", l: "42%", r: "8deg", w: "20%" } },
-    { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", amount: 6.5, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
+    { id: "bluebottle", merchant: "Blue Bottle", date: "12 AUG", amount: 6.5, cat: "coffee",
+      items: [["Drip coffee", 6.5]],
       pos: { t: "31%", l: "52%", r: "-6deg", w: "20%" } },
-    { id: "wf", merchant: "Whole Foods", date: "03 AUG", amount: 42.16, cat: "groceries", img: "assets/3d/slip-wf.webp",
+    { id: "wf", merchant: "Whole Foods", date: "03 AUG", amount: 42.16, cat: "groceries",
+      items: [["Kale", 8], ["Yogurt", 12.16], ["Bread", 22]],
       pos: { t: "33%", l: "26%", r: "6deg", w: "20%" } },
-    { id: "uber", merchant: "Uber", date: "15 AUG", amount: 18.4, cat: "rides", img: "assets/3d/slip-uber.webp",
+    { id: "uber", merchant: "Uber", date: "15 AUG", amount: 18.4, cat: "rides",
+      items: [["Trip fare", 18.4]],
       pos: { t: "34%", l: "40%", r: "-10deg", w: "20%" } },
-    { id: "ikea", merchant: "IKEA", date: "22 AUG", amount: 89, cat: "home", img: "assets/3d/slip-ikea.webp",
+    { id: "ikea", merchant: "IKEA", date: "22 AUG", amount: 89, cat: "home",
+      items: [["Lamp", 49], ["Hooks", 40]],
       pos: { t: "33%", l: "52%", r: "10deg", w: "20%" } },
-    { id: "chipotle", merchant: "Chipotle", date: "20 AUG", amount: 14.85, cat: "other", img: "assets/3d/slip-ottimo.webp",
+    { id: "chipotle", merchant: "Chipotle", date: "20 AUG", amount: 14.85, cat: "other",
+      items: [["Burrito", 14.85]],
       pos: { t: "32%", l: "34%", r: "4deg", w: "20%" } },
-    { id: "starbucks", merchant: "Starbucks", date: "08 AUG", amount: 5.75, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
+    { id: "starbucks", merchant: "Starbucks", date: "08 AUG", amount: 5.75, cat: "coffee",
+      items: [["Caffe latte", 5.75]],
       pos: { t: "32%", l: "47%", r: "-14deg", w: "20%" } },
-    { id: "philz", merchant: "Philz", date: "05 AUG", amount: 7.65, cat: "coffee", img: "assets/3d/slip-bluebottle.webp",
+    { id: "philz", merchant: "Philz", date: "05 AUG", amount: 7.65, cat: "coffee",
+      items: [["Tesora", 7.65]],
       pos: { t: "36%", l: "32%", r: "12deg", w: "20%" } },
-    { id: "amc", merchant: "AMC", date: "16 AUG", amount: 24, cat: "other", img: "assets/3d/slip-uber.webp",
+    { id: "amc", merchant: "AMC", date: "16 AUG", amount: 24, cat: "other",
+      items: [["Ticket", 18], ["Soda", 6]],
       pos: { t: "31%", l: "44%", r: "14deg", w: "20%" } },
-    { id: "shell", merchant: "Shell", date: "09 AUG", amount: 45.2, cat: "other", img: "assets/3d/slip-ikea.webp",
+    { id: "shell", merchant: "Shell", date: "09 AUG", amount: 45.2, cat: "other",
+      items: [["Petrol", 45.2]],
       pos: { t: "37%", l: "45%", r: "-5deg", w: "20%" } },
-    { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", amount: 68, cat: "other", img: "assets/3d/slip-wf.webp",
+    { id: "sushiran", merchant: "Sushi Ran", date: "25 AUG", amount: 68, cat: "other",
+      items: [["Omakase", 68]],
       pos: { t: "35%", l: "54%", r: "7deg", w: "20%" } },
-    { id: "yakuza", merchant: "Yakuza", date: "14 AUG", amount: 38.5, cat: "other", img: "assets/3d/slip-ottimo.webp",
+    { id: "yakuza", merchant: "Yakuza", date: "14 AUG", amount: 38.5, cat: "other",
+      items: [["Ramen", 38.5]],
       pos: { t: "32%", l: "56%", r: "-10deg", w: "20%" } },
   ];
 
@@ -57,22 +70,37 @@
   function catOf(id) { return CATS.find((c) => c.id === id); }
   function catTotal(id) { return byCat(id).reduce((s, r) => s + r.amount, 0); }
 
-  function slipEl(r) {
+  function barShift(id) {
+    let h = 0;
+    for (let i = 0; i < id.length; i++) h = (h * 33 + id.charCodeAt(i)) | 0;
+    return (h % 14) + "px";
+  }
+  function slipEl(r, big) {
     const b = document.createElement("button");
     b.className = "slip";
     b.type = "button";
     b.dataset.id = r.id;
-    if (r.pos) {
+    if (r.pos && !big) {
       b.style.top = r.pos.t;
       b.style.left = r.pos.l;
       b.style.width = r.pos.w;
       b.style.setProperty("--r", r.pos.r);
     }
-    const img = document.createElement("img");
-    img.src = r.img || "assets/3d/slip-ottimo.webp";
-    img.alt = r.merchant;
-    img.draggable = false;
-    b.appendChild(img);
+    const paper = document.createElement("span");
+    paper.className = "coded";
+    paper.style.setProperty("--bar", barShift(r.id));
+    const items = r.items || [["Total", r.amount]];
+    paper.innerHTML =
+      '<span class="m">' + r.merchant + "</span>" +
+      '<span class="d">' + r.date + "</span>" +
+      '<span class="rule"></span>' +
+      items.map(function (it) {
+        return '<span class="ln"><span>' + it[0] + "</span><span>" + Number(it[1]).toFixed(2) + "</span></span>";
+      }).join("") +
+      '<span class="rule"></span>' +
+      '<span class="tot"><span>TOTAL</span><span>' + money(r.amount) + "</span></span>" +
+      '<span class="bars"></span>';
+    b.appendChild(paper);
     b.addEventListener("click", (e) => {
       e.stopPropagation();
       openDetail(r.id);
@@ -172,8 +200,9 @@
     const r = find(id);
     if (!r) return;
     show("detail");
-    document.getElementById("detail-img").src = r.img;
-    document.getElementById("detail-img").alt = r.merchant;
+    const wrap = document.getElementById("detail-wrap");
+    wrap.innerHTML = "";
+    wrap.appendChild(slipEl(r, true));
     const label = catOf(r.cat)?.label || "August";
     document.getElementById("detail-back").textContent = "‹ " + label;
   }
@@ -257,15 +286,6 @@
     setAmt();
   };
 
-  const SLIP_FOR = {
-    "Ottimo Pizza": "assets/3d/slip-ottimo.webp",
-    "Trader Joe's": "assets/3d/slip-tj.webp",
-    "Blue Bottle": "assets/3d/slip-bluebottle.webp",
-    Uber: "assets/3d/slip-uber.webp",
-    IKEA: "assets/3d/slip-ikea.webp",
-    "Whole Foods": "assets/3d/slip-wf.webp",
-  };
-
   document.getElementById("save").onclick = () => {
     const merchant = sheet.dataset.merchant || "New merchant";
     const amount = cents / 100 || 0;
@@ -276,7 +296,7 @@
       date: "26 AUG",
       amount,
       cat,
-      img: SLIP_FOR[merchant] || "assets/3d/slip-ottimo.webp",
+      items: [["Total", amount]],
       pos: { t: "33%", l: "40%", r: "5deg", w: "20%" },
     };
     localStorage.setItem(KEY, JSON.stringify(extras().concat([rec])));
