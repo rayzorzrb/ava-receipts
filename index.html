@@ -3,96 +3,122 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#F2F2F7" />
-  <title>ava — three homes</title>
-  <link rel="stylesheet" href="apple.css" />
-  <link rel="preload" as="image" href="assets/3d/wood-tray.webp" type="image/webp">
+  <meta name="theme-color" content="#F7F7F5" />
+  <title>ava</title>
+  <link rel="stylesheet" href="product.css" />
+  <link rel="preload" as="image" href="assets/3d/oak.webp" type="image/webp">
 </head>
 <body>
-  <main class="phone chooser">
+  <main class="phone">
     <div class="statusbar" aria-hidden="true">
-      <div class="sb-time">9:41</div>
+      <div>9:41</div>
       <div class="sb-end">
         <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7.2" width="3" height="4.8" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.6" width="3" height="9.4" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
         <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1.4 7.4 A8.4 8.4 0 0 1 14.6 7.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.1 9.2 A4.8 4.8 0 0 1 11.9 9.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="1.15" fill="currentColor"/></svg>
         <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="0.6" width="21" height="10.8" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.6" width="1.6" height="4.8" rx="0.6" fill="currentColor"/><rect x="2" y="2" width="16.2" height="8" rx="1.4" fill="currentColor"/></svg>
       </div>
     </div>
-    <div class="nav">
-      <div class="nav-left"></div>
-      <div class="nav-title">ava</div>
-      <div class="nav-right"></div>
-    </div>
-    <div class="large-title">
-      <h1>ava</h1>
-      <p class="sub">one oak box, many piles. items are receipts.</p>
-    </div>
 
-    <a class="home-pick" href="studio.html">
-      <div class="art">
-        <div class="oak size-hero">
-          <img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" fetchpriority="high" decoding="async" style="aspect-ratio:746/800">
-          <div class="tray-well"></div>
+    <section id="view-home" class="view on">
+      <div class="topbar">
+        <div class="mark">ava</div>
+        <div class="pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 19c1.4-3.2 3.8-4.8 7-4.8s5.6 1.6 7 4.8"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7.5v.5"/></svg>
         </div>
       </div>
-      <div class="copy">
-        <div class="kicker">Home A</div>
-        <h2>Studio</h2>
-        <p>His empty oak tray holds the month. Four smaller trays underneath hold the sorted piles.</p>
+      <div class="hero-copy">
+        <h1>august</h1>
+        <p id="count">13 receipts in the drawer</p>
       </div>
-    </a>
+      <div class="drawer">
+        <img class="oak" src="assets/3d/oak.webp" width="800" height="533" alt="August drawer">
+        <div class="well" id="well"></div>
+      </div>
+      <div class="section">
+        <h2>the boxes</h2>
+        <div class="boxes" id="boxes"></div>
+      </div>
+    </section>
 
-    <a class="home-pick" href="cells.html">
-      <div class="art quad">
-        <div class="oak size-cell"><img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" loading="lazy" decoding="async" style="aspect-ratio:746/800"><div class="tray-well"></div></div>
-        <div class="oak size-cell"><img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" loading="lazy" decoding="async" style="aspect-ratio:746/800"><div class="tray-well"></div></div>
-        <div class="oak size-cell"><img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" loading="lazy" decoding="async" style="aspect-ratio:746/800"><div class="tray-well"></div></div>
-        <div class="oak size-cell"><img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" loading="lazy" decoding="async" style="aspect-ratio:746/800"><div class="tray-well"></div></div>
+    <section id="view-cat" class="view">
+      <button class="back" id="back-home" type="button">‹ August</button>
+      <div class="cat-head">
+        <h1 id="cat-title">groceries</h1>
+        <p id="cat-sub"></p>
       </div>
-      <div class="copy">
-        <div class="kicker">Home B</div>
-        <h2>Cells</h2>
-        <p>Four of his oak boxes. Same tray, different piles of coded paper.</p>
+      <div class="drawer">
+        <img class="oak" id="cat-shot" src="assets/3d/oak.webp" width="800" height="533" alt="">
+        <div class="well" id="cat-well"></div>
       </div>
-    </a>
+      <div class="slips-row" id="cat-slips"></div>
+    </section>
 
-    <a class="home-pick" href="table.html">
-      <div class="art">
-        <div class="oak size-compact">
-          <img src="assets/3d/wood-tray.webp" width="746" height="800" alt="" loading="lazy" decoding="async" style="aspect-ratio:746/800">
-          <div class="tray-well"></div>
-        </div>
+    <section id="view-detail" class="view">
+      <div class="topbar">
+        <button class="back" id="detail-back" type="button">‹ August</button>
+        <button class="ghost" id="detail-done" type="button">Done</button>
       </div>
-      <div class="copy">
-        <div class="kicker">Home C</div>
-        <h2>Table</h2>
-        <p>Compact oak tray up top. His four boxes filter a wallet of thermal slips.</p>
+      <div class="detail">
+        <img class="paper" id="detail-img" src="assets/3d/slip-ottimo.webp" alt="">
       </div>
-    </a>
+    </section>
 
-    <div class="section-head">Earlier</div>
-    <div class="group">
-      <a class="choose-card" href="drawer.html">
-        <div class="row-body">
-          <h2>the drawer</h2>
-          <p>August, already full. Kraft slips in a pile.</p>
-        </div>
-      </a>
-      <a class="choose-card" href="drop.html">
-        <div class="row-body">
-          <h2>drop</h2>
-          <p>A new receipt prints and lands in the pile.</p>
-        </div>
-      </a>
-      <a class="choose-card" href="sort.html">
-        <div class="row-body">
-          <h2>sort</h2>
-          <p>A messy stack, and the boxes waiting at the bottom.</p>
-        </div>
-      </a>
-    </div>
-    <p class="quiet">Dummy August · ₹ · no login</p>
-    <div class="home-ind" aria-hidden="true"></div>
+    <nav class="tabbar">
+      <button class="tab on" id="home-tab" data-view="home" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>
+        Home
+      </button>
+      <button class="fab" id="new-tab" type="button" aria-label="New receipt">+</button>
+      <button class="tab" id="boxes-tab" data-view="cat" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+        Boxes
+      </button>
+    </nav>
   </main>
+
+  <div class="sheet" id="sheet">
+    <div class="panel">
+      <div class="grab"></div>
+      <div class="sheet-top">
+        <button class="ghost" id="cancel" type="button">Cancel</button>
+        <h3>New receipt</h3>
+        <span></span>
+      </div>
+      <div class="field">
+        <label>Merchant</label>
+        <div class="chips" id="chips">
+          <button class="chip" type="button" data-m="Ottimo Pizza">Ottimo</button>
+          <button class="chip" type="button" data-m="Trader Joe's">Trader Joe’s</button>
+          <button class="chip" type="button" data-m="Blue Bottle">Blue Bottle</button>
+          <button class="chip" type="button" data-m="Uber">Uber</button>
+          <button class="chip" type="button" data-m="IKEA">IKEA</button>
+          <button class="chip" type="button" data-m="Whole Foods">Whole Foods</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Amount</label>
+        <div class="amt">₹<span id="amt">0.00</span></div>
+        <div class="keys" id="keys">
+          <button type="button">1</button><button type="button">2</button><button type="button">3</button>
+          <button type="button">4</button><button type="button">5</button><button type="button">6</button>
+          <button type="button">7</button><button type="button">8</button><button type="button">9</button>
+          <button type="button">.</button><button type="button">0</button><button type="button" data-k="del">⌫</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Which box</label>
+        <div class="pick-grid" id="pick">
+          <button type="button" data-cat="groceries"><img src="assets/3d/box-groc.webp" alt="Groceries"></button>
+          <button type="button" data-cat="coffee"><img src="assets/3d/box-coffee.webp" alt="Coffee"></button>
+          <button type="button" data-cat="rides"><img src="assets/3d/box-rides.webp" alt="Rides"></button>
+          <button type="button" data-cat="home"><img src="assets/3d/box-home.webp" alt="Home"></button>
+        </div>
+      </div>
+      <button class="save" id="save" type="button">Print into the drawer</button>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="product.js"></script>
 </body>
 </html>
